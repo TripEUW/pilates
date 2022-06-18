@@ -14,7 +14,7 @@ class AddFieldToTemplateTable extends Migration
     public function up()
     {
       Schema::table('template', function (Blueprint $table) {
-        $table->json('default_time')->nullable()->default(null)->after('observation');
+        $table->longText('default_time')->nullable()->default(null)->after('observation');
       });
     }
 
