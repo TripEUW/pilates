@@ -1,0 +1,197 @@
+#kt_table_employees_shedule td{
+padding: 0px;
+}
+.draggable-employee{
+    padding: 1px;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    position: relative;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+.selected-table-employee{
+    padding: 1px;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    position: relative;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+                                  min-width: 80%;
+}
+.draggable-employee-item{
+    min-width: 100%;
+    padding: 8px;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    position: relative;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+.selected-table-employee-item{
+    min-width: 100%;
+    padding: 8px;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    position: relative;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+.status-shedule-employee-default{
+    height: 8px;
+    width: 8px;
+    position: absolute;
+    border-radius: 8px;
+    top: 8px;
+    left: 8px;
+    background: white;
+    border: solid 1px #000;
+}
+.status-shedule-employee-active{
+    height: 8px;
+    width: 8px;
+    position: absolute;
+    border-radius: 8px;
+    top: 8px;
+    left: 8px;
+    background: red;
+    border: solid 1px #000;
+}
+
+.filter-shedule-employee{
+height: 15px;
+width: 15px;
+position: absolute;
+border-radius: 15px;
+top: 5px;
+right: 5px;
+color: white;
+cursor: pointer;
+}
+.ui-droppable-hover{
+    background: #ccc;
+}
+
+.droppable-cell-shedule{
+    vertical-align: middle !important;
+}
+.droppable-tr-shedule:hover{
+    /* background: #ccc; */
+}
+.event-shedule{
+    width: 100%;
+    height: 15px;
+    min-height: 15px;
+    max-height: 15px;
+    font-size: 4vw;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    border-radius: 3px;
+}
+.schedule-calendar-table-weekly{
+    width: 100%;
+    border-collapse: collapse;
+    border: solid 1px rgb(204, 204, 204);
+    min-height: 65vh;
+    table-layout: fixed;
+}
+.schedule-calendar-table-weekly thead
+{
+    text-align: center;
+}
+.schedule-calendar-table-weekly th,
+.schedule-calendar-table-weekly td
+{
+    text-align: center;
+    border: solid 1px rgb(204, 204, 204);
+}
+.schedule-calendar-table-weekly th
+{
+padding: 10px;
+background: rgb(240, 240, 240);
+color: #9B999F;
+font-weight: normal;
+}
+.schedule-calendar-table-weekly tbody td{
+    vertical-align: middle;
+    width: 90px;
+    text-align: left;
+    padding: 2px;
+    text-align: center;
+   }
+   .schedule-calendar-table-weekly .cell-session-th{
+       width: 90px;
+   }
+   
+   
+   .schedule-calendar-table-weekly,
+   .schedule-calendar-table-weekly td,
+   .schedule-calendar-table-weekly th,
+   .schedule-calendar-table-weekly tr,
+   .schedule-calendar-table-weekly div
+   {
+   -webkit-touch-callout: none; /* iOS Safari */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Old versions of Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+   user-select: none; /* Non-prefixed version, currently
+   supported by Chrome, Opera and Firefox */
+   }
+   
+.schedule-calendar-table-weekly .time,.schedule-calendar-table-weekly .to{
+    display: inline-block;
+    width: 100%;
+}
+.fix-timepicker-schedule .bootstrap-timepicker-widget{
+    position: sticky !important;
+    margin-top: 0px !important;
+    margin-left: 40px !important;
+}
+.time{
+font-size: 11px;
+}
+.to{
+    font-size: 11px;
+}
+.container-holidays-schedule{
+    background: #fff;
+    border: solid 1px #ccc;
+}
+.container-holidays-schedule-header{
+    background: #ccc;
+    color: black;
+}
+.kt-checkbox span{
+background: black !important;
+}
+.days-in-holidays{
+    font-size: 90%;
+    font-size: 50px;
+}
+
+body.modal-open {
+    height: auto !important;
+}

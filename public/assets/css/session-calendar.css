@@ -1,0 +1,241 @@
+#session-calendar{
+    width: 100%;
+    display: inline-block;
+    overflow-x: scroll;
+}
+.session-calendar-table-weekly{
+    width: 100%;
+    border-collapse: collapse;
+    border: solid 1px rgb(204, 204, 204);
+    min-height: 65vh;
+    table-layout: fixed;
+}
+.session-calendar-table-weekly thead
+{
+    text-align: center;
+}
+.session-calendar-table-weekly th,
+.session-calendar-table-weekly td
+{
+    border: solid 1px rgb(204, 204, 204);
+}
+.session-calendar-table-weekly th
+{
+padding: 10px;
+background: rgb(240, 240, 240);
+color: #9B999F;
+font-weight: normal;
+}
+.event-session{
+    background: #fff;
+    width: 27%;
+    min-width: 27%;
+    min-height: 50px;
+    max-width: 27%;
+    max-height: 50px;
+    border-radius: 1px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 3px;
+    display: inline-block;
+    border-radius: 8px;
+    text-align: center;
+}
+.event-session-default{
+
+    background: rgb(233, 233, 233);
+    width: 27%;
+    min-width: 27%;
+    min-height: 50px;
+    max-width: 27%;
+    max-height: 50px;
+    border-radius: 1px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 3px;
+    display: inline-block;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+}
+.event-session-default-unlock{
+    border: solid 1px rgb(0, 98, 255);
+}
+
+.event-session-for-table{
+    background: #fff;
+    width: 27%;
+    min-width: 27%;
+    min-height: 50px;
+    max-width: 27%;
+    max-height: 50px;
+    border-radius: 1px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 3px;
+    display: inline-block;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.time-cell-session{
+    width: 50px;
+    background: #ffffff;
+    vertical-align: middle !important;
+    text-align: center !important;
+    color: #000;
+}
+.time-cell-session-list{
+    width: 20px;
+    background: #ffffff;
+    vertical-align: middle !important;
+    text-align: center !important;
+    color: #000;
+}
+.session-calendar-table-weekly tbody td{
+ vertical-align: top;
+ width: 90px;
+ text-align: left;
+ padding: 2px;
+}
+.session-calendar-table-weekly .cell-session-th{
+    width: 90px;
+}
+
+
+.session-calendar-table-weekly,
+.session-calendar-table-weekly td,
+.session-calendar-table-weekly th,
+.session-calendar-table-weekly tr,
+.session-calendar-table-weekly div
+{
+-webkit-touch-callout: none; /* iOS Safari */
+-webkit-user-select: none; /* Safari */
+-khtml-user-select: none; /* Konqueror HTML */
+-moz-user-select: none; /* Old versions of Firefox */
+-ms-user-select: none; /* Internet Explorer/Edge */
+user-select: none; /* Non-prefixed version, currently
+supported by Chrome, Opera and Firefox */
+}
+
+
+
+.btn-back,.btn-next{
+text-align: center;
+padding: 0.65rem 1rem;
+width: 50px;
+
+}
+
+.btn-back i,.btn-next i{
+color: #fff !important; 
+text-align: center !important;
+}
+.btn-back{
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+  
+}
+.btn-front{
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+.session-calendar-table-weekly .time,.session-calendar-table-weekly .to{
+    display: inline-block;
+    width: 100%;
+}
+.icon-session{
+    width: 80%;
+    max-width: 30px;
+    max-height: 30px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+    -webkit-user-drag: none;
+}
+
+
+.event-session.free-spaces,.event-session-for-table.free-spaces{
+background: #c1cd29;
+}
+.event-session.full,.event-session-for-table.full{
+background:  red;
+}
+.event-session.empty,.event-session-for-table.empty{
+background: rgb(0, 132, 255);
+}
+.active-type-calendar{
+    background: gray !important;
+}
+.default-empty-cell-session{
+    opacity: 0.5;
+    background: #ececec;
+    pointer-events: none;
+    -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+
+
+.btn-day-calentar-session{
+    width: 100%;
+    float: right;
+    text-align: right;
+    cursor: pointer;
+}
+.hover-click{
+    cursor: pointer;
+}
+.hover-click:hover{
+    color: rgb(70, 70, 70);
+}
+.w-100-force{
+    width: 100% !important;
+    min-width: 100% !important;
+}
+#btn-now-time-session:focus{
+background: gray !important;
+}
+.table-list-session{
+    height: 100px !important;
+    min-height: auto !important;
+}
+.tooltip{
+    width: 250px;
+    max-width: 250px;
+    opacity: 1 !important;
+}
+.context-menu-list {
+z-index: 100000 !important;
+}
+.not-employee-border{
+    border: solid 2px rgb(158, 0, 0);
+}
+.event-session-default-lock{
+    background: red !important;
+}
+.event-session.free-spaces.disable {
+    background: #c2cd298c;
+}
+.event-session.full.disable {
+    background:  rgba(255, 0, 0, 0.50);
+}
+.event-session.empty.disable {
+    background: rgba(0, 132, 255, 0.50);
+}
+
+
+.tooltip{
+    opacity: 1 !important;
+}
+.tooltip-inner{
+    opacity: 1 !important;
+}

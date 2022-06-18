@@ -1,0 +1,23 @@
+@font-face {
+    font-family: OpenSans;
+    src: url('../fonts/open-sans/OpenSans-Regular.ttf');
+}
+*:not(i):not(.close){
+    /* font-size: 100%; */
+    font-family: 'OpenSans' !important;
+}
+
+
+
+.logo-dashboard{
+    max-width: 70%;
+    margin-top: 8px;
+}
+.logo-default{
+    height: 30px;
+}
+
+.d-flex-align-items-center{
+    display: flex;
+    align-items: center;
+}

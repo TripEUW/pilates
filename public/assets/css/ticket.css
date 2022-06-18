@@ -1,0 +1,117 @@
+@page { margin: 0in; border: none; }
+*,
+td,
+table,
+h1 {
+    font-size: 100%;
+    font-family: 'opensans' !important;
+}
+
+html {
+    margin: 0px;
+    width: 78mm;
+    height: auto;
+    border: none;
+}
+
+.div-line {
+    width: 100%;
+    background: gray;
+    border: none;
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+.container-ticket {
+    background: #fff;
+    width: 100%;
+    padding: 15px;
+    margin: 0px;
+    box-sizing: border-box;
+    border: solid 1px #ccc;
+}
+
+.table-head-ticket{
+    width: 100%;
+}
+
+.logo-ticket {
+    width:30mm;
+    display: inline-block;
+}
+.tick-head-part0{
+    text-align: center;
+
+}
+.tick-head-part1{
+    padding-top: 10px;
+}
+.tick-head-part1-name {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+}
+
+.tick-head-part1-address {
+    font-size: 10px;
+    font-weight: normal;
+    text-align: left;
+    padding: 0px;
+    margin: 0px;
+}
+.tick-head-part2{
+    padding-top: 10px;
+}
+.tick-head-part2-num{
+    font-size: 10px;
+    font-weight: bold;
+}
+.tick-head-part2-date{
+    font-size: 10px;
+    font-weight: bold;
+}
+.table-detail{
+    width: 100%;
+
+}
+.table-detail td, .table-detail  th{ 
+    font-size: 10px;
+    padding: 5px;
+}
+.table-detail thead{
+ background: #b1b1b1;
+ text-align: left;
+}
+.table-detail tbody td{
+text-align: left;
+padding: 5px;
+}
+.tick-table-totals{
+    width: 80%;
+    text-align: left;
+}
+.tick-table-totals td{
+    font-size: 10px;
+    padding: 2px;
+    font-weight: bold;
+}
+
+.tick-table-end{
+    width: 100%;
+    text-align: left;
+}
+.tick-table-end td{
+    font-size: 10px;
+    padding: 2px;
+    font-weight: bold;
+}
+.tanks{
+    font-size: 13px;
+    width: 100%;
+    text-align: center;
+}

@@ -1,0 +1,157 @@
+*,
+td,
+table,
+h1 {
+    font-size: 100%;
+    font-family: 'opensans' !important;
+}
+
+html {
+    margin: 0px;
+}
+
+.container-invoice {
+    background: #fff;
+    width: 100%;
+    padding: 15px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.logo-invoice {
+    width: 150px;
+}
+
+.inv-head-part1-name {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+}
+
+.inv-head-part1-address {
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    padding: 0px;
+    margin: 0px;
+}
+
+.table-head-invoice td {
+    padding: 15px;
+}
+
+.inv-head-part0 {
+    width: 10%;
+}
+
+.inv-head-part1 {
+    width: 40%;
+}
+
+.inv-head-part1-1 {
+    width: 30%;
+}
+
+.inv-head-part2 {
+    width: 50%;
+    text-align: right;
+}
+
+.inv-head-part2>.sub-rigth {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    width: 100px;
+}
+
+.div-line {
+    width: 100%;
+    background: gray;
+    border: none;
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.table-sub-head-invoice {
+    width: 250px;
+}
+
+.table-sub-head-invoice td {
+    padding: 15px;
+}
+
+.inv-sub-head-part0-name {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+}
+
+.inv-sub-head-part0-address {
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    padding: 0px;
+    margin: 0px;
+}
+
+.inv-detail-table {
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+}
+
+.inv-detail-table th,
+.inv-detail-table td {
+    font-size: 10px !important;
+}
+
+.inv-detail-table th {
+    background: #c1cd29;
+    padding: 10px;
+    text-align: left;
+}
+
+.inv-detail-table th {
+    background: #c1cd29;
+    padding: 10px;
+    text-align: left;
+    color: #fff;
+}
+
+.inv-detail-table tbody td {
+    background: #fff;
+    padding: 10px;
+    text-align: left;
+}
+
+.inv-detail-table tbody tr {
+    background: #fff;
+    padding: 10px;
+    text-align: left;
+}
+
+.inv-detail-table tbody tr {
+    border-bottom: solid 1px gray !important;
+}
+
+.inv-table-totals {
+    float: right;
+    margin: 10px;
+    text-align: right;
+    font-weight: bold;
+    width: 210px;
+}
+
+.inv-table-totals th,
+.inv-table-totals td {
+    font-size: 10px !important;
+}

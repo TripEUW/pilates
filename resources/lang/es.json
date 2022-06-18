@@ -1,0 +1,5 @@
+{
+    "Regards" : "Saludos cordiales",
+    "Hello!" : "Hola!",
+    "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser: [:actionURL](:actionURL)" : "Si tiene problemas para hacer clic en \":actionText\" botón, copia y pega la URL a continuación\nen su navegador web : [:actionURL](:actionURL)"
+}
