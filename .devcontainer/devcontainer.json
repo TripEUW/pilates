@@ -1,0 +1,8 @@
+{
+    "name": "Laravel Development Container",
+    "dockerFile": "Dockerfile",
+    "context": "..",
+    "forwardPorts": [8000],
+    "remoteUser": "root"
+
+}

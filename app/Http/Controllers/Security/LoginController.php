@@ -7,8 +7,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Auth\AuthenticatesUsers;
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
@@ -51,7 +50,6 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        
         $this->guard()->logout();
         $request->session()->invalidate();
         
@@ -63,10 +61,9 @@ class LoginController extends Controller
         if (method_exists($this, 'hasTooManyLoginAttempts') &&
             $this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
-
             return $this->sendLockoutResponse($request);
         }
-
+        // try to login
         if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }
@@ -75,7 +72,7 @@ class LoginController extends Controller
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
-
+        return "El login fallo";
         return $this->sendFailedLoginResponse($request);
     }
 

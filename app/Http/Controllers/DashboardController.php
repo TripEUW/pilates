@@ -56,7 +56,6 @@ class DashboardController extends Controller
     public function index()
     {
         $roles = Rol::where('id',2)->orderBy('id')->pluck('name', 'id')->toArray();
-
         return view('dashboard', compact('roles'));
     }
 
@@ -206,7 +205,7 @@ class DashboardController extends Controller
         $rules = [
 
             'group_selected'  => [
-                'required',
+                'requi',
                 'required_with:clients_selected',
                 'required_with:employee_selected',
                 new RuleEmptyGroup($request->group_selected['id_group'], $request->date_start . ' ' . $request->timepicker_start, $request->date_start . ' ' . $request->timepicker_end, $cantClients),

@@ -245,3 +245,7 @@ Route::group(['prefix' => '/', 'middleware' => ['auth', 'enable_employee', 'rol.
 
 
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
