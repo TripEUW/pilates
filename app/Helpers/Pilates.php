@@ -44,7 +44,7 @@ class Pilates
     public static function getBreadCrumbs($breadcrumbsList)
     {
 
-
+        
         $html = "";
         $htmlInner = "";
         for ($i = 0; $i < count($breadcrumbsList); $i++) {

@@ -30,3 +30,36 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+// service-worker.js
+var CACHE_NAME = 'my-site-cache-v1';
+var urlsToCache = [
+    '/styles/sweetalert2.css',
+    '/styles/socicon.css',
+    '/styles/line-awesome.css',
+    '/styles/flaticon.css',
+    '/styles/all.min.css',
+    '/styles/style.bundle.css',
+    '/styles/light.css',
+    '/styles/dark.css',
+    '/styles/custom.style.css',
+    '/styles/pace.css',
+    '/styles/bootstrap-select.css',
+    '/styles/datatables.bundle.css',
+    '/styles/toastr.css',
+    '/styles/perfect-scrollbar.css',
+    '/styles/morris.css',
+];
+
+
+// Check if service workers are supported
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }, function(err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+}

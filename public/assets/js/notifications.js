@@ -2,6 +2,7 @@ var socket = io.connect(apiNotifications,{'forceNew':true});
 socket.on(modeNotifications, function(data){processNotification(data);});
 
 function processNotification(data){
+    console.log("not")
 var htmlTemplateNotification=``;
 var containerNotifications=$("#container-notifications");
 
