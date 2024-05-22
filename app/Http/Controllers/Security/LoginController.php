@@ -11,6 +11,7 @@ use Laravel\Fortify\Actions\AttemptToAuthenticate;
 use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
+use Illuminate\Support\Facades\Log;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 
 class LoginController extends Controller
@@ -51,14 +52,21 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        if ($user->status != 'enable') {
-            $this->guard()->logout();
-            $request->session()->invalidate();
-            return redirect('login')->withErrors(['error' => 'Tu cuenta ha sido deshabilitada']);
+
+        echo is_object($user);
+        if (is_object($user)) {
+            if ($user->status != 'enable') {
+                $this->guard()->logout();
+                $request->session()->invalidate();
+                return redirect('login')->withErrors(['error' => 'Tu cuenta ha sido deshabilitada']);
+            } else {
+                $time = Carbon::now()->format('H:i:s');
+                /*auditoria: start*/ Pilates::setAudit(false, "$time - usuario: $user->name $user->last_name - Login"); /*auditoria: end*/
+            }
         } else {
-            $time = Carbon::now()->format('H:i:s');
-            /*auditoria: start*/ Pilates::setAudit(false, "$time - usuario: $user->name $user->last_name - Login"); /*auditoria: end*/
+            return "is not object";
         }
+        
     }
 
     /**

@@ -27,7 +27,7 @@ return [
     | to control the amount of time it takes to hash the given password.
     |
     */
-
+    'rehash_on_login' => false,
     'bcrypt' => [
         'rounds' => env('BCRYPT_ROUNDS', 10),
     ],

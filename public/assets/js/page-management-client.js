@@ -490,7 +490,8 @@ function showHiddenFields(tableId,btn){
         },
         error: function (xhr, status, error) {
             hideOverlay();
-            console.log(JSON.stringify(xhr));
+            // ! Error in url http://localhost:8000/management_client/dataTable
+            // console.log(JSON.stringify(xhr));
             sendErrorsShow([error]);
         },
     });

@@ -11,7 +11,7 @@
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.0",
         "intervention/image": "^2.6",
-        "laravel/framework": "^10.0",
+        "laravel/framework": "^11.0",
         "laravel/tinker": "^2.6",
         "laravel/ui": "^4.3",
         "spatie/flysystem-dropbox": "^2.0",
@@ -20,8 +20,8 @@
     "require-dev": {
         "fakerphp/faker": "^1.16",
         "mockery/mockery": "^1.4",
-        "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5"
+        "nunomaduro/collision": "^8.1",
+        "phpunit/phpunit": "^10.0"
     },
     "config": {
         "optimize-autoloader": true,
