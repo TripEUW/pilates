@@ -7,75 +7,88 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
-use Illuminate\Auth\AuthenticatesUsers;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
+use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
+use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Http\Requests\LoginRequest;
+
 class LoginController extends Controller
 {
-    use AuthenticatesUsers;
     protected $redirectTo = '/dashboard';
-
 
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
     }
+
     /**
-     * Display a listing of the resource.
+     * Display the login form.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index()
     {
-    return view('login');
+        return view('login');
     }
 
+    /**
+     * Get the username for the login process.
+     *
+     * @return string
+     */
     public function username()
     {
         return 'email';
     }
 
+    /**
+     * Handle the authenticated user.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
     protected function authenticated(Request $request, $user)
     {
-
-        if($user->status!="enable"){
-     
+        if ($user->status != 'enable') {
             $this->guard()->logout();
             $request->session()->invalidate();
-            return redirect('login')->withErrors(['error'=>'Tu cuenta ha sido deshabilitada']);
-        }else{
-            $time=Carbon::now()->format('H:i:s');
-            /*auditoria: start*/Pilates::setAudit(false,"$time - usuario: $user->name $user->last_name - Login"); /*auditoria: end*/
+            return redirect('login')->withErrors(['error' => 'Tu cuenta ha sido deshabilitada']);
+        } else {
+            $time = Carbon::now()->format('H:i:s');
+            /*auditoria: start*/ Pilates::setAudit(false, "$time - usuario: $user->name $user->last_name - Login"); /*auditoria: end*/
         }
-        
     }
 
-    public function login(Request $request)
+    /**
+     * Handle the login request.
+     *
+     * @param LoginRequest $request The login request object.
+     * @param EnsureLoginIsNotThrottled $ensureLoginIsNotThrottled The throttling handler.
+     * @param RedirectIfTwoFactorAuthenticatable $redirectIfTwoFactorAuthenticatable The two-factor authentication handler.
+     * @param AttemptToAuthenticate $attemptToAuthenticate The authentication attempt handler.
+     * @return mixed
+     */
+    public function login(LoginRequest $request, EnsureLoginIsNotThrottled $ensureLoginIsNotThrottled, RedirectIfTwoFactorAuthenticatable $redirectIfTwoFactorAuthenticatable, AttemptToAuthenticate $attemptToAuthenticate)
     {
-        $this->guard()->logout();
-        $request->session()->invalidate();
-        
-        $this->validateLogin($request);
+        $ensureLoginIsNotThrottled($request);
 
-        // If the class is using the ThrottlesLogins trait, we can automatically throttle
-        // the login attempts for this application. We'll key this by the username and
-        // the IP address of the client making these requests into this application.
-        if (method_exists($this, 'hasTooManyLoginAttempts') &&
-            $this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
-            return $this->sendLockoutResponse($request);
-        }
-        // try to login
-        if ($this->attemptLogin($request)) {
-            return $this->sendLoginResponse($request);
-        }
+        $attemptToAuthenticate($request, [Fortify::username() => $request->{Fortify::username()}, 'password' => $request->password]);
 
-        // If the login attempt was unsuccessful we will increment the number of attempts
-        // to login and redirect the user back to the login form. Of course, when this
-        // user surpasses their maximum number of attempts they will get locked out.
-        $this->incrementLoginAttempts($request);
-        return "El login fallo";
-        return $this->sendFailedLoginResponse($request);
+        return $redirectIfTwoFactorAuthenticatable($request, config('fortify.home'));
     }
-
-
-   
+    /**
+     * Logout the authenticated user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    }
 }
