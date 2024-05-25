@@ -24,9 +24,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-
-        return view('management_client');
-    }
+        $clients = Client::all();
+        return response()->view('management_client', ['clients' => $clients]);    }
 
 
     public function store(ValidationClient $request)

@@ -32,7 +32,7 @@ class Pilates
 
     public static function getMenuEnable($route)
     {
-        if (request()->is($route) || request()->is($route . '/*') || request()->route()->getName()==$route ) {
+        if (request()->is($route) || request()->is($route . '/*') || request()->route()->getName() == $route) {
             return true;
         } else {
             return false;
@@ -43,22 +43,19 @@ class Pilates
 
     public static function getBreadCrumbs($breadcrumbsList)
     {
-
-        
         $html = "";
         $htmlInner = "";
         for ($i = 0; $i < count($breadcrumbsList); $i++) {
             if ($i == 0)
                 $html .= " <h3 class='kt-subheader__title'>" . $breadcrumbsList[$i]['name'] . "</h3>";
             if ($i == 1)
-                $html .= " <span class='kt-subheader__separator kt-hidden'></span>";
+                $html .= "<span class='kt-subheader__separator kt-hidden'></span>";
             if ($i >= 1)
                 $htmlInner .= ' <span class="kt-subheader__breadcrumbs-separator"></span><a href="' . $breadcrumbsList[$i]['route'] . '" class="kt-subheader__breadcrumbs-link"> ' . $breadcrumbsList[$i]['name'] . ' </a>';
         }
 
         if ($htmlInner != "") {
-            $html .= '<div class="kt-subheader__breadcrumbs">
-<a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>';
+            $html .= '<div class="kt-subheader__breadcrumbs"><a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>';
             $html .= $htmlInner;
             $html .= "</div>";
         }
@@ -69,7 +66,7 @@ class Pilates
     public static function getRolPermissionStatus(Request $request = null, $route = false, $moduleTitle = false)
     {
         //! Need to understand more about the get Role Permission Status allow view all menu
-        // return true;
+        return true;
         $flagRoute = false;
         $flagTitle = false;
         $employeeModules = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
@@ -121,10 +118,13 @@ class Pilates
         if (request()->is('restricted_permission') && !$route)
             return true;
 
-        if ($flagRoute || $flagTitle)
+        if ($flagRoute || $flagTitle){
             return true;
+        }else {
 
-        return false;
+            return false;
+        }
+
     }
 
 
@@ -155,7 +155,7 @@ class Pilates
                 $sumTaxes += $tax->tax;
             }
         }
-        return round($priceEnd + $sumTaxes,1);
+        return round($priceEnd + $sumTaxes, 1);
     }
 
     public static function getTotalAmount($products)
@@ -252,7 +252,7 @@ class Pilates
 
         $client = Client::where("id", $id_client)->first();
         $groupRoom = Group::where("group.id", $id_group)->join('room', 'group.id_room', '=', 'room.id')->first();
-        $sessionsClient = Session::where("id_client", $id_client)->where('status',  'enable')->get();
+        $sessionsClient = Session::where("id_client", $id_client)->where('status', 'enable')->get();
 
         $sumMachine = 0;
         $sumFloor = 0;
@@ -299,14 +299,14 @@ class Pilates
                 if ($balanceFloor >= 2) {
                     $response = true;
                     $message = '¿El cliente desea canjear 2 sesiones de suelo por 1 de máquina ?';
-                    $message.="<br><br>Saldo suelo: $balanceFloor";
-                    $message.="<br>Saldo máquina: $balanceMachine";
-                    $message.="<br>Saldo fisioterapia: $balanceIndividual";
-                }else{
-                    $message.="<br><br>Saldo suelo: $balanceFloor";
-                    $message.="<br>Saldo máquina: $balanceMachine";
-                    $message.="<br>Saldo fisioterapia: $balanceIndividual";
-                $message.="<br><br> ¿Desea asignar la sesión al cliente y poner su saldo como negativo?";
+                    $message .= "<br><br>Saldo suelo: $balanceFloor";
+                    $message .= "<br>Saldo máquina: $balanceMachine";
+                    $message .= "<br>Saldo fisioterapia: $balanceIndividual";
+                } else {
+                    $message .= "<br><br>Saldo suelo: $balanceFloor";
+                    $message .= "<br>Saldo máquina: $balanceMachine";
+                    $message .= "<br>Saldo fisioterapia: $balanceIndividual";
+                    $message .= "<br><br> ¿Desea asignar la sesión al cliente y poner su saldo como negativo?";
                 }
             }
         } else if ($groupRoom->type_room == 'Suelo') {
@@ -314,24 +314,24 @@ class Pilates
             if (!$flagFloor) {
                 $response = false;
                 $message = 'No cuenta con saldo suficiente para una sesión de suelo.';
-                $message.="<br><br>Saldo suelo: $balanceFloor";
-                $message.="<br>Saldo máquina: $balanceMachine";
-                $message.="<br>Saldo fisioterapia: $balanceIndividual";
-                $message.="<br><br> ¿Desea asignar la sesión al cliente y poner su saldo como negativo?";
+                $message .= "<br><br>Saldo suelo: $balanceFloor";
+                $message .= "<br>Saldo máquina: $balanceMachine";
+                $message .= "<br>Saldo fisioterapia: $balanceIndividual";
+                $message .= "<br><br> ¿Desea asignar la sesión al cliente y poner su saldo como negativo?";
             }
         } else if ($groupRoom->type_room == 'Camilla') {
             if (!$flagIndividual) {
                 $response = false;
                 $message = 'No cuenta con saldo suficiente para una sesión de fisioterapia.';
-                $message.="<br><br>Saldo suelo: $balanceFloor";
-                $message.="<br>Saldo máquina: $balanceMachine";
-                $message.="<br>Saldo fisioterapia: $balanceIndividual";
-                $message.="<br><br> ¿Desea asignar la sesión al cliente y poner su saldo como negativo?";
+                $message .= "<br><br>Saldo suelo: $balanceFloor";
+                $message .= "<br>Saldo máquina: $balanceMachine";
+                $message .= "<br>Saldo fisioterapia: $balanceIndividual";
+                $message .= "<br><br> ¿Desea asignar la sesión al cliente y poner su saldo como negativo?";
             }
         }
 
-       
-       
+
+
 
 
 
@@ -346,7 +346,7 @@ class Pilates
     {
 
         $client = Client::where("id", $id_client)->first();
-        $sessionsClient = Session::where("id_client", $id_client)->where('status',  'enable')->get();
+        $sessionsClient = Session::where("id_client", $id_client)->where('status', 'enable')->get();
 
         $sumMachine = 0;
         $sumFloor = 0;
@@ -415,7 +415,7 @@ class Pilates
     }
 
 
-    public static function getRealStatusGroupTemplate($id_group, $start, $end, $formated = false,$id_template,$day, $fromFormate = 'H:i')
+    public static function getRealStatusGroupTemplate($id_group, $start, $end, $formated = false, $id_template, $day, $fromFormate = 'H:i')
     {
 
         $date_start = DateTime::createFromFormat($fromFormate, $start)->format('H:i:s');
@@ -429,7 +429,7 @@ class Pilates
             ])->first();
 
         $sessions = SessionTemplate::
-              where('start', $date_start)
+            where('start', $date_start)
             ->where('end', $date_end)
             ->where('id_group', $id_group)
             ->where('id_template', $id_group)
@@ -465,7 +465,7 @@ class Pilates
         return $status;
     }
 
-    public static function getRealStatusGroupTemplateCapacity($id_group, $start, $end, $formated = false,$id_template,$day,$sessionsToAdd=0, $fromFormate = 'H:i')
+    public static function getRealStatusGroupTemplateCapacity($id_group, $start, $end, $formated = false, $id_template, $day, $sessionsToAdd = 0, $fromFormate = 'H:i')
     {
 
         $date_start = DateTime::createFromFormat($fromFormate, $start)->format('H:i:s');
@@ -479,24 +479,24 @@ class Pilates
             ])->first();
 
         $sessions = SessionTemplate::
-              where('start', $date_start)
+            where('start', $date_start)
             ->where('end', $date_end)
             ->where('id_group', $id_group)
             ->where('id_template', $id_group)
             ->where('day', $day)
             ->whereNotNull('id_client')
             ->get(['id'])->count();
-            $sessions= $sessions+$sessionsToAdd;
+        $sessions = $sessions + $sessionsToAdd;
 
-            $feeSpaces = (floatval($group->capacity_room)) - floatval($sessions);
+        $feeSpaces = (floatval($group->capacity_room)) - floatval($sessions);
 
 
-            if ($feeSpaces < 0)
-                return false;
-            return true;
+        if ($feeSpaces < 0)
+            return false;
+        return true;
     }
 
-    public static function getRealStatusGroupCapacity($id_group, $date_start, $date_end, $formated = false, $fromFormate = 'Y-m-d g:i A',$sessionsToAdd=0)
+    public static function getRealStatusGroupCapacity($id_group, $date_start, $date_end, $formated = false, $fromFormate = 'Y-m-d g:i A', $sessionsToAdd = 0)
     {
 
         $date_start = DateTime::createFromFormat($fromFormate, $date_start)->format('Y-m-d H:i:s');
@@ -514,7 +514,7 @@ class Pilates
             ->where('id_group', $id_group)
             ->whereNotNull('session.id_client')
             ->get(['id'])->count();
-        $sessions= $sessions+$sessionsToAdd;
+        $sessions = $sessions + $sessionsToAdd;
 
 
 
@@ -572,7 +572,7 @@ class Pilates
         return ['num' => $status, 'format' => $statusFormat];
     }
 
-    public static function getRealStatusGroupByNumFormatCalendar($id_group,$room, $date_start, $date_end)
+    public static function getRealStatusGroupByNumFormatCalendar($id_group, $room, $date_start, $date_end)
     {
 
 
@@ -608,13 +608,13 @@ class Pilates
         return ['num' => $status, 'format' => $statusFormat];
     }
 
-    public static function getRealStatusGroupByNumFormatTemplate($id_group,$room, $start, $end, $day,$template)
+    public static function getRealStatusGroupByNumFormatTemplate($id_group, $room, $start, $end, $day, $template)
     {
 
-       
+
 
         $sessions = SessionTemplate::
-              where('start', $start)
+            where('start', $start)
             ->where('end', $end)
             ->where('id_group', $id_group)
             ->where('day', $day)
@@ -794,26 +794,28 @@ class Pilates
         $role = Rol::where('id', $id_rol)->get('name')->first();
         return $role->name;
     }
-    public static function getNotificationsEmployee($id_employee,$id_rol){
+    public static function getNotificationsEmployee($id_employee, $id_rol)
+    {
 
-       return Notification::
-        where('cod_receiver',$id_employee)
-        ->where('type_receiver',$id_rol)
-        ->orderBy('id', 'desc')
-        ->offset(0)
-        ->limit(25)
-       ->get(['*']);
+        return Notification::
+            where('cod_receiver', $id_employee)
+            ->where('type_receiver', $id_rol)
+            ->orderBy('id', 'desc')
+            ->offset(0)
+            ->limit(25)
+            ->get(['*']);
 
     }
 
-    public static function getNotificationsNoRead($id_employee,$id_rol){
+    public static function getNotificationsNoRead($id_employee, $id_rol)
+    {
 
         return Notification::
-         where('cod_receiver',$id_employee)
-         ->where('type_receiver',$id_rol)
-         ->where('status','no_read')->count();
- 
-     }
+            where('cod_receiver', $id_employee)
+            ->where('type_receiver', $id_rol)
+            ->where('status', 'no_read')->count();
+
+    }
 
     public static function sendNotification(
         $title_n = '',
@@ -831,27 +833,27 @@ class Pilates
         $sendMail = false,
         $icon = '', //name-image.jpg or html code
         $type_icon = '' //html-class, image-public
-    ){
+    ) {
         $dateCreate = date('Y-m-d H:i:s');
-        $urlApiNotifications = config('app.api_notifications_socket')."/api"."/".config('app.mode_notifications_socket');
-        $notification=Notification::create([
+        $urlApiNotifications = config('app.api_notifications_socket') . "/api" . "/" . config('app.mode_notifications_socket');
+        $notification = Notification::create([
             'title' => $title_n,
             'message' => $msg_n,
             'status' => 'no_read',
             'path' => $path_n,
             'params_title' => json_encode($paramsTitleNotifi, JSON_UNESCAPED_SLASHES),
             'params_message' => json_encode($paramsMsgNotifi, JSON_UNESCAPED_SLASHES),
-            'cod_sender' => (empty($cod_sender))?null:$cod_sender,
-            'cod_receiver' => (empty($cod_receiver))?null:$cod_receiver,
-            'type_sender' => (empty($type_sender))?null:$type_sender,
-            'type_receiver' => (empty($type_receiver))?null:$type_receiver,
+            'cod_sender' => (empty($cod_sender)) ? null : $cod_sender,
+            'cod_receiver' => (empty($cod_receiver)) ? null : $cod_receiver,
+            'type_sender' => (empty($type_sender)) ? null : $type_sender,
+            'type_receiver' => (empty($type_receiver)) ? null : $type_receiver,
             'type_notification' => $type_notification,
             'date' => $dateCreate,
             'icon' => $icon,
             'type_icon' => $type_icon
         ]);
-        if ($notification){
-            $notification=$notification->fresh();
+        if ($notification) {
+            $notification = $notification->fresh();
             $post = array(
                 'title_n' => $title_n,
                 'msg_n' => $msg_n,
@@ -892,176 +894,191 @@ class Pilates
         }
     }
 
-    public static function getStatusDayWorkEmployee($id_employee){
-    $nowDate=Carbon::now();
+    public static function getStatusDayWorkEmployee($id_employee)
+    {
+        $nowDate = Carbon::now();
 
-    $scheduleEmployee=Schedule::where('id_employee',$id_employee)->where('date_start','>=',$nowDate->clone()->startOfWeek()->format('Y-m-d'))->where('date_end','<=',$nowDate->clone()->endOfWeek()->format('Y-m-d'));
-    $noWorkDays=NoWorkDay::get();
+        $scheduleEmployee = Schedule::where('id_employee', $id_employee)->where('date_start', '>=', $nowDate->clone()->startOfWeek()->format('Y-m-d'))->where('date_end', '<=', $nowDate->clone()->endOfWeek()->format('Y-m-d'));
+        $noWorkDays = NoWorkDay::get();
 
-    $days=['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
-
-
-    if($scheduleEmployee->count()<=0)
-    return ['status_formated'=>'Aun no tiene establecido un horario de trabajo.','status'=>false,'in_time'=>null,'out_time'=>null,'date'=>null,'in_time_finish'=>null,'out_time_finish'=>null];
-   
-
-    if($scheduleEmployee->count()>0){
-
-    if(Attendances::where('date',$nowDate->clone()->format('Y-m-d'))->where('id_employee',$id_employee)->exists())
-    return ['status_formated'=>'Su jornada de hoy ya ha terminado.','status'=>false,'in_time'=>null,'out_time'=>null,'date'=>null,'in_time_finish'=>null,'out_time_finish'=>null];
-    
-    if(NoWorkDay::where('date',$nowDate->clone()->format('Y-m-d'))->exists())
-    return ['status_formated'=>'Hoy no es un día de trabajo.','status'=>false,'in_time'=>null,'out_time'=>null,'date'=>null,'in_time_finish'=>null,'out_time_finish'=>null];
-
-    if($nowDate->clone()->format('N') == 6 || $nowDate->clone()->format('N') == 7)
-    return ['status_formated'=>'Hoy no es un día de trabajo.','status'=>false,'in_time'=>null,'out_time'=>null,'date'=>null,'in_time_finish'=>null,'out_time_finish'=>null];
-
-    if(Holidays::where('start','>=',$nowDate->clone()->format('Y-m-d'))->where('end','<=',$nowDate->clone()->format('Y-m-d'))->where('id_employee',$id_employee)->where('status','accept')->exists())
-    return ['status_formated'=>'Usted se encuentra en vacacíones.','status'=>false,'in_time'=>null,'out_time'=>null,'date'=>null,'in_time_finish'=>null,'out_time_finish'=>null];
-    
-    $scheduleValidate=Schedule::where($days[intval($nowDate->clone()->format('N'))-1],'true')->where('id_employee',$id_employee)->where('date_start','>=',$nowDate->clone()->startOfWeek()->format('Y-m-d'))->where('date_end','<=',$nowDate->clone()->endOfWeek()->format('Y-m-d'));
+        $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
 
-    
-    if($scheduleValidate->count()>0){
-  
-        
-    if(
-    Carbon::createFromFormat('H:i:s',$nowDate->clone()->format('H:i:s'),config('app.timezone_for_pilates')) > Carbon::createFromFormat('H:i:s',$scheduleValidate->first()->end,config('app.timezone_for_pilates')) 
-    &&
-    InOut::where('date',$nowDate->clone()->format('Y-m-d'))->where('id_employee',$id_employee)->whereNotNull('in_time')->doesntExist()
-    )
-    return ['status_formated'=>'Su jornada de hoy ya ha terminado.','status'=>false,'in_time'=>null,'out_time'=>null,'date'=>null,'in_time_finish'=>null,'out_time_finish'=>null];
-
-    $in_time_finish=InOut::where('date',$nowDate->clone()->format('Y-m-d'))->where('id_employee',auth()->user()->id)->whereNotNull('in_time')->get();
-    $out_time_finish=InOut::where('date',$nowDate->clone()->format('Y-m-d'))->where('id_employee',auth()->user()->id)->whereNotNull('out_time')->get();
-
-    $in_time_finish=($in_time_finish->count()>0)?Carbon::createFromFormat('H:i:s',$in_time_finish->first()->in_time,config('app.timezone_for_pilates'))->format('g:i A'):null;
-    $out_time_finish=($out_time_finish->count()>0)?Carbon::createFromFormat('H:i:s',$out_time_finish->first()->out_time,config('app.timezone_for_pilates'))->format('g:i A'):null;
-
-    if(Carbon::createFromFormat('H:i:s',$nowDate->clone()->format('H:i:s'),config('app.timezone_for_pilates')) < Carbon::createFromFormat('H:i:s',$scheduleValidate->first()->start,config('app.timezone_for_pilates')) )
-    return ['status_formated'=>'Su jornada de hoy aún no comienza.','status'=>false,'in_time'=>Carbon::createFromFormat('H:i:s',$scheduleValidate->first()->start,config('app.timezone_for_pilates'))->format('g:i A'),'out_time'=>Carbon::createFromFormat('H:i:s',$scheduleValidate->first()->end,config('app.timezone_for_pilates'))->format('g:i A'),'date'=>null,'in_time_finish'=>null,'out_time_finish'=>null,'except'=>true];
-
-    return [
-        'status_formated'=>'Día laboral.',
-        'status'=>true,
-        'in_time'=>Carbon::createFromFormat('H:i:s',$scheduleValidate->first()->start,config('app.timezone_for_pilates'))->format('g:i A'),
-        'out_time'=>Carbon::createFromFormat('H:i:s',$scheduleValidate->first()->end,config('app.timezone_for_pilates'))->format('g:i A'),
-        'date'=>$nowDate->clone()->format('Y-m-d'),
-        'in_time_finish'=>$in_time_finish,
-        'out_time_finish'=>$out_time_finish
-    ];
-    }
-    return ['status_formated'=>'El día de hoy no trabaja.','status'=>false,'in_time'=>null,'out_time'=>null,'date'=>null];
-    }
-    }
-
-    public static function getStatusEmployeeGroupBySessionGroup($id_employee,$start,$end,$passDoesHaveSchedule){
-
-        $flagScheduleEmployee=Schedule::where('id_employee',$id_employee);
-        
-        $days=['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
-        $dateStart=Carbon::createFromFormat('Y-m-d H:i:s',$start);
-        $dateStartTmp=Carbon::createFromFormat('Y-m-d H:i:s',$start);
-        $dateStartHoly=Carbon::createFromFormat('Y-m-d H:i:s',$start);
-        $dateEnd=Carbon::createFromFormat('Y-m-d H:i:s', $end);
-
-        if(Holidays::where('start','>=',$dateStartHoly->format('Y-m-d'))->where('end','<=',$dateStartHoly->format('Y-m-d'))->where('id_employee',$id_employee)->where('status','accept')->exists())
-        return false; 
+        if ($scheduleEmployee->count() <= 0)
+            return ['status_formated' => 'Aun no tiene establecido un horario de trabajo.', 'status' => false, 'in_time' => null, 'out_time' => null, 'date' => null, 'in_time_finish' => null, 'out_time_finish' => null];
 
 
-        if($flagScheduleEmployee->exists()){
-            $scheduleValidate=Schedule::
-            where($days[intval($dateStart->format('N'))-1],'true')
-            ->where('id_employee',$id_employee)
-            ->where('date_start','>=',$dateStart->startOfWeek()->format('Y-m-d'))
-            ->where('date_end','<=',$dateStart->endOfWeek()->format('Y-m-d'))
-            ->where('start','<=',$dateStartTmp->format('H:i:s'))
-            ->where('end','>=',$dateEnd->format('H:i:s'));
-            if($scheduleValidate->exists()){
-            return true;
-            }else{
-            return false; 
+        if ($scheduleEmployee->count() > 0) {
+
+            if (Attendances::where('date', $nowDate->clone()->format('Y-m-d'))->where('id_employee', $id_employee)->exists())
+                return ['status_formated' => 'Su jornada de hoy ya ha terminado.', 'status' => false, 'in_time' => null, 'out_time' => null, 'date' => null, 'in_time_finish' => null, 'out_time_finish' => null];
+
+            if (NoWorkDay::where('date', $nowDate->clone()->format('Y-m-d'))->exists())
+                return ['status_formated' => 'Hoy no es un día de trabajo.', 'status' => false, 'in_time' => null, 'out_time' => null, 'date' => null, 'in_time_finish' => null, 'out_time_finish' => null];
+
+            if ($nowDate->clone()->format('N') == 6 || $nowDate->clone()->format('N') == 7)
+                return ['status_formated' => 'Hoy no es un día de trabajo.', 'status' => false, 'in_time' => null, 'out_time' => null, 'date' => null, 'in_time_finish' => null, 'out_time_finish' => null];
+
+            if (Holidays::where('start', '>=', $nowDate->clone()->format('Y-m-d'))->where('end', '<=', $nowDate->clone()->format('Y-m-d'))->where('id_employee', $id_employee)->where('status', 'accept')->exists())
+                return ['status_formated' => 'Usted se encuentra en vacacíones.', 'status' => false, 'in_time' => null, 'out_time' => null, 'date' => null, 'in_time_finish' => null, 'out_time_finish' => null];
+
+            $scheduleValidate = Schedule::where($days[intval($nowDate->clone()->format('N')) - 1], 'true')->where('id_employee', $id_employee)->where('date_start', '>=', $nowDate->clone()->startOfWeek()->format('Y-m-d'))->where('date_end', '<=', $nowDate->clone()->endOfWeek()->format('Y-m-d'));
+
+
+
+            if ($scheduleValidate->count() > 0) {
+
+
+                if (
+                    Carbon::createFromFormat('H:i:s', $nowDate->clone()->format('H:i:s'), config('app.timezone_for_pilates')) > Carbon::createFromFormat('H:i:s', $scheduleValidate->first()->end, config('app.timezone_for_pilates'))
+                    &&
+                    InOut::where('date', $nowDate->clone()->format('Y-m-d'))->where('id_employee', $id_employee)->whereNotNull('in_time')->doesntExist()
+                )
+                    return ['status_formated' => 'Su jornada de hoy ya ha terminado.', 'status' => false, 'in_time' => null, 'out_time' => null, 'date' => null, 'in_time_finish' => null, 'out_time_finish' => null];
+
+                $in_time_finish = InOut::where('date', $nowDate->clone()->format('Y-m-d'))->where('id_employee', auth()->user()->id)->whereNotNull('in_time')->get();
+                $out_time_finish = InOut::where('date', $nowDate->clone()->format('Y-m-d'))->where('id_employee', auth()->user()->id)->whereNotNull('out_time')->get();
+
+                $in_time_finish = ($in_time_finish->count() > 0) ? Carbon::createFromFormat('H:i:s', $in_time_finish->first()->in_time, config('app.timezone_for_pilates'))->format('g:i A') : null;
+                $out_time_finish = ($out_time_finish->count() > 0) ? Carbon::createFromFormat('H:i:s', $out_time_finish->first()->out_time, config('app.timezone_for_pilates'))->format('g:i A') : null;
+
+                if (Carbon::createFromFormat('H:i:s', $nowDate->clone()->format('H:i:s'), config('app.timezone_for_pilates')) < Carbon::createFromFormat('H:i:s', $scheduleValidate->first()->start, config('app.timezone_for_pilates')))
+                    return ['status_formated' => 'Su jornada de hoy aún no comienza.', 'status' => false, 'in_time' => Carbon::createFromFormat('H:i:s', $scheduleValidate->first()->start, config('app.timezone_for_pilates'))->format('g:i A'), 'out_time' => Carbon::createFromFormat('H:i:s', $scheduleValidate->first()->end, config('app.timezone_for_pilates'))->format('g:i A'), 'date' => null, 'in_time_finish' => null, 'out_time_finish' => null, 'except' => true];
+
+                return [
+                    'status_formated' => 'Día laboral.',
+                    'status' => true,
+                    'in_time' => Carbon::createFromFormat('H:i:s', $scheduleValidate->first()->start, config('app.timezone_for_pilates'))->format('g:i A'),
+                    'out_time' => Carbon::createFromFormat('H:i:s', $scheduleValidate->first()->end, config('app.timezone_for_pilates'))->format('g:i A'),
+                    'date' => $nowDate->clone()->format('Y-m-d'),
+                    'in_time_finish' => $in_time_finish,
+                    'out_time_finish' => $out_time_finish
+                ];
             }
-        }else{
-            if($passDoesHaveSchedule){
-            return true;
-            }else{
+            return ['status_formated' => 'El día de hoy no trabaja.', 'status' => false, 'in_time' => null, 'out_time' => null, 'date' => null];
+        }
+    }
+
+    public static function getStatusEmployeeGroupBySessionGroup($id_employee, $start, $end, $passDoesHaveSchedule)
+    {
+
+        $flagScheduleEmployee = Schedule::where('id_employee', $id_employee);
+
+        $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        $dateStart = Carbon::createFromFormat('Y-m-d H:i:s', $start);
+        $dateStartTmp = Carbon::createFromFormat('Y-m-d H:i:s', $start);
+        $dateStartHoly = Carbon::createFromFormat('Y-m-d H:i:s', $start);
+        $dateEnd = Carbon::createFromFormat('Y-m-d H:i:s', $end);
+
+        if (Holidays::where('start', '>=', $dateStartHoly->format('Y-m-d'))->where('end', '<=', $dateStartHoly->format('Y-m-d'))->where('id_employee', $id_employee)->where('status', 'accept')->exists())
             return false;
+
+
+        if ($flagScheduleEmployee->exists()) {
+            $scheduleValidate = Schedule::
+                where($days[intval($dateStart->format('N')) - 1], 'true')
+                ->where('id_employee', $id_employee)
+                ->where('date_start', '>=', $dateStart->startOfWeek()->format('Y-m-d'))
+                ->where('date_end', '<=', $dateStart->endOfWeek()->format('Y-m-d'))
+                ->where('start', '<=', $dateStartTmp->format('H:i:s'))
+                ->where('end', '>=', $dateEnd->format('H:i:s'));
+            if ($scheduleValidate->exists()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if ($passDoesHaveSchedule) {
+                return true;
+            } else {
+                return false;
             }
         }
     }
 
-    public static function getStatusEmployeeGroupBySessionGroupSetEmployee($id_employee,$start,$end,$passDoesHaveSchedule){
+    public static function getStatusEmployeeGroupBySessionGroupSetEmployee($id_employee, $start, $end, $passDoesHaveSchedule)
+    {
 
-        $flagScheduleEmployee=Schedule::where('id_employee',$id_employee);
-        
-        $days=['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
-        $dateStart=Carbon::createFromFormat('Y-m-d H:i:s',$start);
-        $dateStartTmp=Carbon::createFromFormat('Y-m-d H:i:s',$start);
-        $dateStartHoly=Carbon::createFromFormat('Y-m-d H:i:s',$start);
-        $dateEnd=Carbon::createFromFormat('Y-m-d H:i:s', $end);
+        $flagScheduleEmployee = Schedule::where('id_employee', $id_employee);
 
-        if(Holidays::where('start','>=',$dateStartHoly->format('Y-m-d'))->where('end','<=',$dateStartHoly->format('Y-m-d'))->where('id_employee',$id_employee)->where('status','accept')->exists())
-        return false; 
+        $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        $dateStart = Carbon::createFromFormat('Y-m-d H:i:s', $start);
+        $dateStartTmp = Carbon::createFromFormat('Y-m-d H:i:s', $start);
+        $dateStartHoly = Carbon::createFromFormat('Y-m-d H:i:s', $start);
+        $dateEnd = Carbon::createFromFormat('Y-m-d H:i:s', $end);
 
-
-        if($flagScheduleEmployee->exists()){
-            $scheduleValidate=Schedule::
-            where($days[intval($dateStart->format('N'))-1],'true')
-            ->where('id_employee',$id_employee)
-            ->where('date_start','>=',$dateStart->startOfWeek()->format('Y-m-d'))
-            ->where('date_end','<=',$dateStart->endOfWeek()->format('Y-m-d'))
-            ->where('start','<=',$dateStartTmp->format('H:i:s'))
-            ->where('end','>=',$dateEnd->format('H:i:s'));
-            if($scheduleValidate->exists()){
-            return true;
-            }else{
-            return false; 
-            }
-        }else{
-            if($passDoesHaveSchedule){
-            return true;
-            }else{
+        if (Holidays::where('start', '>=', $dateStartHoly->format('Y-m-d'))->where('end', '<=', $dateStartHoly->format('Y-m-d'))->where('id_employee', $id_employee)->where('status', 'accept')->exists())
             return false;
+
+
+        if ($flagScheduleEmployee->exists()) {
+            $scheduleValidate = Schedule::
+                where($days[intval($dateStart->format('N')) - 1], 'true')
+                ->where('id_employee', $id_employee)
+                ->where('date_start', '>=', $dateStart->startOfWeek()->format('Y-m-d'))
+                ->where('date_end', '<=', $dateStart->endOfWeek()->format('Y-m-d'))
+                ->where('start', '<=', $dateStartTmp->format('H:i:s'))
+                ->where('end', '>=', $dateEnd->format('H:i:s'));
+            if ($scheduleValidate->exists()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if ($passDoesHaveSchedule) {
+                return true;
+            } else {
+                return false;
             }
         }
     }
 
-    public static function getStatusStatusModuleAssitances(){
+    public static function getStatusStatusModuleAssitances()
+    {
 
         $configuration = Configuration::first();
 
         if (empty($configuration)) {
-           
+
             return false;
         } else {
-           if($configuration->asisstance_module_status=="true"){
-               return true;
-           }else{
-               return false;
-           }
-            
+            if ($configuration->asisstance_module_status == "true") {
+                return true;
+            } else {
+                return false;
+            }
+
         }
     }
 
-    public static function setAudit($action = false,$customText = false)
+    public static function setAudit($action = false, $customText = false)
     {
+        // Define the path
+        $directory = 'auditorias';
+        $filename = 'auditoria_' . Carbon::now()->format('Ymd') . '.log';
+        $path = $directory . '/' . $filename;
     
-        $pathSave=Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix().'auditorias/auditoria_'.Carbon::now()->format('Ymd').'.log';
-        
-        config(['logging.channels.audit.path' => $pathSave]);
-
-        if ($customText != false && trim($customText)!="") {
-            Log::channel('audit')->info($customText);
-        } else if( (trim($action)!="" && $action!=false) ) {
-            if(isset(auth()->user()->id)){
-            $nameUser=auth()->user()->name.' '.auth()->user()->last_name;
-            $time=Carbon::now()->format('H:i:s');
-            Log::channel('audit')->info("{$time} - usuario: {$nameUser} - {$action}");
-            }
+        // Ensure the directory exists
+        if (!Storage::disk('public')->exists($directory)) {
+            Storage::disk('public')->makeDirectory($directory);
         }
     
+        // Get the full path
+        $fullPath = Storage::disk('public')->path($path);
+    
+        // Update the audit log channel's path
+        config(['logging.channels.audit.path' => $fullPath]);
+    
+        // Log the custom text or action
+        if ($customText !== false && trim($customText) !== "") {
+            Log::channel('audit')->info($customText);
+        } elseif ($action !== false && trim($action) !== "") {
+            if (auth()->check()) {
+                $nameUser = auth()->user()->name . ' ' . auth()->user()->last_name;
+                $time = Carbon::now()->format('H:i:s');
+                Log::channel('audit')->info("{$time} - usuario: {$nameUser} - {$action}");
+            }
+        }
     }
 
 

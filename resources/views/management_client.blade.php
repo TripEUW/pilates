@@ -156,7 +156,7 @@ Agregar Cliente
                         <div class="col-12 d-flex justify-content-center align-items-center">
         
                             <label for="img-change"  data-toggle="kt-tooltip" data-placement="top" title="" data-original-title="Clic para cambiar">
-                            <img id="img-change-profile" class="picture-profile" src="{{ asset("assets/images/user_default.png") }}"  />                 
+                            <img id="img-change-profile" class="" src="{{ asset("assets/images/user_default.png") }}"  />                 
                             </label>
                                             
                             <input type='file' id="img-change" style="display:none" name="picture_upload" accept="image/*"/>
@@ -417,7 +417,7 @@ Agregar Cliente
                             <div class="col-12 d-flex justify-content-center align-items-center">
             
                                 <label for="img-change2"  data-toggle="kt-tooltip" data-placement="top" title="" data-original-title="Clic para cambiar">
-                                <img id="img-change-profile2" class="picture-profile" src=""  />                 
+                                <img id="img-change-profile2" class="" src=""  />                 
                                 </label>
                                                 
                                 <input type='file' id="img-change2" style="display:none" name="picture_upload" accept="image/*"/>

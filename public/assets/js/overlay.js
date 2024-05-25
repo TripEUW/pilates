@@ -1,38 +1,33 @@
-Pace.on("start", function(){
+Pace.on("start", function () {
     $("#overlay-pilates").show();
 });
-$.hasAjaxRunning = function() {
+$.hasAjaxRunning = function () {
     return $.active != 0;
- }
-Pace.on("done", function(){
-    if($.hasAjaxRunning()) {
-    $(document).ajaxStop(function(){
-        $('#overlay-pilates').delay(100).fadeOut(200);
-      });
-    }else{
-        $('#overlay-pilates').delay(100).fadeOut(200);
-    }
-    
+};
+Pace.on("done", function () {
+    hideOverlay();
 });
 
-function showOverlay(){
-$("#overlay-pilates").show();
+function showOverlay() {
+    $("#overlay-pilates").show();
 }
-function hideOverlay(){
-$("#overlay-pilates").delay(100).fadeOut(200);
+function hideOverlay() {
+    $("#overlay-pilates").delay(100).fadeOut(200);
 }
 $("form").submit(function (e) {
-showOverlay();
+    showOverlay();
 });
 
-$(document).ready(function(){
-    $( document ).on( 'focus', ':input', function(){
-        $( this ).attr( 'autocomplete', 'off' );
+$(document).ready(function () {
+    $(document).on("focus", ":input", function () {
+        $(this).attr("autocomplete", "off");
     });
 });
 
-$('.modal').on('show.bs.modal', function(){
-    $('html').css('overflow', 'hidden');
-}).on('hide.bs.modal', function(){
-    $('html').css('overflow', 'auto');
-})
+$(".modal")
+    .on("show.bs.modal", function () {
+        $("html").css("overflow", "hidden");
+    })
+    .on("hide.bs.modal", function () {
+        $("html").css("overflow", "auto");
+    });

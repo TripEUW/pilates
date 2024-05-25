@@ -78,7 +78,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				</div>
 			</div>
 		</div>
-
+	</div>
 	<!-- begin::Body -->
 	<body class="kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading ">
  

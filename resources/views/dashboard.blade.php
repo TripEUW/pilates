@@ -950,7 +950,6 @@ DICIEMBRE 10, 2019 - DICIEMBRE 14, 2019
 
               <div class="row">
                   <div class="col-12 d-flex justify-content-center align-items-center">
-
                       <label for="img-change"  data-toggle="kt-tooltip" data-placement="top" title="" data-original-title="Clic para cambiar">
                       <img id="img-change-profile" class="picture-profile" src="{{ asset("assets/images/user_default.png") }}"  />
                       </label>
