@@ -16,11 +16,21 @@ class Document extends Model
 
     public function getCreatedAtAttribute($date)
     {
-    return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y');
+        try {
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y');
+        } catch (\Carbon\Exceptions\InvalidFormatException $e) {
+            error_log("Error al crear la fecha en el Modelo Document getCreatedAt: " . $e->getMessage());
+        }
+        return $date;
     }
     public function getUpdatedAtAttribute($date)
     {
-    return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y');
+        try {
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y');
+        } catch (\Carbon\Exceptions\InvalidFormatException $e) {
+            error_log("Error al crear la fecha en el modelo Document getUpdatedAtAtrribute: " . $e->getMessage());
+        }
+        return $date;
     }
     public function getDocumentsDataTable(Request $request)
     {
