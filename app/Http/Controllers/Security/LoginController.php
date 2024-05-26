@@ -53,7 +53,6 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
 
-        echo is_object($user);
         if (is_object($user)) {
             if ($user->status != 'enable') {
                 $this->guard()->logout();
@@ -64,7 +63,6 @@ class LoginController extends Controller
                 /*auditoria: start*/ Pilates::setAudit(false, "$time - usuario: $user->name $user->last_name - Login"); /*auditoria: end*/
             }
         } else {
-            return "is not object";
         }
         
     }
