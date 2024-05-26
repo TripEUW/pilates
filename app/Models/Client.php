@@ -8,48 +8,58 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Client extends Model
 {
     protected $table = 'client';
     protected $guarded = ['id'];
 
-
-
     public function getNameAttribute($name)
-    { //Accessors and mutators
+    {
         return ucwords($name);
     }
+
     public function getLastNameAttribute($lastName)
-    { //Accessors and mutators
+    {
         return ucwords($lastName);
     }
+
     public function setEmailAttribute($email)
     {
         $this->attributes['email'] = mb_strtolower($email);
     }
 
     public function setNameAttribute($name)
-    { //Accessors and mutators
+    {
         $this->attributes['name'] = mb_convert_case(mb_strtolower($name), MB_CASE_TITLE, 'UTF-8');
     }
+
     public function setLastNameAttribute($lastName)
-    { //Accessors and mutators
+    {
         $this->attributes['last_name'] = mb_convert_case(mb_strtolower($lastName), MB_CASE_TITLE, 'UTF-8');
     }
+
     public function getCreatedAtAttribute($date)
     {
-    return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y');
-    }
-    public function getDateRegisterAttribute($date)
-    {
-    return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y');
-    }
-    public function getDateOfBirthAttribute($date)
-    {
-    return Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
+        try {
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y');
+            Log::info($date);
+        } catch (\Carbon\Exceptions\InvalidFormatException $e) {
+            error_log("Error al crear la fecha: " . $e->getMessage());
+        }
+        return $date;
     }
 
+    public function getDateRegisterAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y');
+    }
+
+    public function getDateOfBirthAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
+    }
 
     public function getClientDataTable(Request $request)
     {
@@ -65,91 +75,42 @@ class Client extends Model
             8 => 'status',
             9 => 'address',
             10 => 'date_of_birth',
-            11 => 'date_register',
-            12 => 'observation',
-            13 => 'sessions_machine',
-            14 => 'sessions_floor',
-            15 => 'sessions_individual'
         );
 
-        $totalData = Client::count();
+        $query = Client::query();
+
+        $totalData = $query->count();
         $totalFiltered = $totalData;
 
         $limit = $request->input('length');
         $start = $request->input('start');
         $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
-        $dir = ($dir == 'desc') ? true : false;
+        $dir = $request->input('order.0.dir') === 'desc' ? 'desc' : 'asc';
 
-        $clients = [];
-        if (empty($request->input('search.value'))) {
-
-            if ($limit == -1) {
-                $clients = Client::get([
-                        '*'
-                    ])->map(function ($client) {
-                        return $this->analizeFilterClientDataTable($client);
-                    })->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
-            } else {
-                $clients = Client::get([
-                        '*'
-                    ])->map(function ($client) {
-                        return  $this->analizeFilterClientDataTable($client);
-                    })
-                    ->skip($start)->take($limit)
-                    ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
-            }
-        } else {
+        if (!empty($request->input('search.value'))) {
             $search = $request->input('search.value');
-            if ($limit == -1) {
-                $clients =  Client::get([
-                        '*'
-                    ])->map(function ($client) {
-                        return   $this->analizeFilterClientDataTable($client);
-                    })
-                    ->filter(function ($client) use ($search, $columns) {
-                        $item = false;
-                        foreach ($columns as $colum)
-                            if (stristr($client[$colum], $search))
-                                $item = $client;
-                        return $item;
-                    })
-                    ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
-            } else {
-
-                $clients =  Client::get([
-                        '*'
-                    ])->map(function ($client) {
-                        return $this->analizeFilterClientDataTable($client);
-                    })
-                    ->filter(function ($client) use ($search, $columns) {
-                        $item = false;
-                        foreach ($columns as $colum)
-                            if (stristr($client[$colum], $search))
-                                $item = $client;
-                        return $item;
-                    })
-                    ->skip($start)->take($limit)
-                    ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
-            }
-
-            $totalFiltered = Client::get(['*'])
-                ->filter(function ($client) use ($search, $columns) {
-                    $item = false;
-                    foreach ($columns as $colum)
-                        if (stristr($client[$colum], $search))
-                            $item = $client;
-                    return $item;
-                })
-                ->count();
+            $query->where(function ($query) use ($columns, $search) {
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', "%{$search}%");
+                }
+            });
+            $totalFiltered = $query->count();
         }
 
+        if ($limit != -1) {
+            $query->offset($start)->limit($limit);
+        }
 
+        $clients = $query->orderBy($order, $dir)->get();
+
+        $clients = $clients->map(function ($client) {
+            return $this->analizeFilterClientDataTable($client);
+        });
 
         $result = [
-            'iTotalRecords'        =>  $totalData,
+            'iTotalRecords' => $totalData,
             'iTotalDisplayRecords' => $totalFiltered,
-            'aaData'               =>  $clients
+            'aaData' => $clients,
         ];
 
         return $result;
@@ -157,26 +118,29 @@ class Client extends Model
 
     function analizeFilterClientDataTable($client)
     {
-        $client->actions = json_decode($client);
-        $client->sex = ($client->sex == "male") ? "Masculino" : "Femenino";
-        $realBalance = Pilates::getRealBalance($client->id);
-        $client->sessions_machine = $realBalance['sessions_machine'];
-        $client->sessions_floor = $realBalance['sessions_floor'];
-        $client->sessions_individual = $realBalance['sessions_individual'];
-        $client->suscription = ($client->suscription=="true")?"Activa":"Inactiva";
 
-        $sessionsClient = Session::where('id_client', $client->id)->get(['id'])->count();
-        $balance = Pilates::getRealBalance($client->id);
-        $status = "";
-        if ($sessionsClient > 0)
-            $status = "<span class='status-green p-1'>Asignado</span>";
-        if ($sessionsClient <= 0)
-            $status = "<span class='status-blue p-1'>Pendiente</span>";
-        if ($balance['sessions_machine'] <= 0 && $balance['sessions_floor'] <= 0  && $balance['sessions_individual'] <= 0)
-            $status = "<span class='status-gray p-1'>Sin Saldo</span>";
+        $client['id_select'] = $client->id;
+        $client['type'] = ($client->suscription == "false" || $client->suscription == "" || $client->suscription == null) ? "Básico" : "Suscripción";
+        $client['actions'] = json_decode($client);
 
-        $client->status = $status;
-
+        $client['created_at_2'] = $this->formatDate($client->created_at, 'd/m/Y');
+   
         return $client;
+    }
+
+    private function formatDate($date, $format)
+    {
+        $formats = ['Y-m-d H:i:s', 'Y-m-d', 'd/m/Y'];
+        
+        // Log::info("Date format error: Could not parse '{$date}' using the formats: " . implode(', ', $formats));
+        // foreach ($formats as $inputFormat) {
+        //     try {
+        //         return Carbon::createFromFormat($inputFormat, $date)->format($format);
+        //     } catch (\Exception $e) {
+        //         continue;
+        //     }
+        // }
+
+        return $date;
     }
 }

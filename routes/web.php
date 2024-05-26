@@ -124,7 +124,7 @@ Route::group(['prefix' => '/', 'middleware' => ['auth', 'enable_employee', 'rol.
 
     //clientes
     Route::post('management_client/insert', 'ClientController@store')->name('management_client_insert');
-    Route::get('management_client/dataTable', 'ClientController@index')->name('management_client');
+    Route::get('management_client', 'ClientController@index')->name('management_client');
     Route::post('management_client/dataTable', 'ClientController@dataTable')->name('management_client_data_table');
     Route::delete('management_client/delete', 'ClientController@destroy')->name('management_client_delete');
     Route::put('management_client/update', 'ClientController@update')->name('management_client_update');
