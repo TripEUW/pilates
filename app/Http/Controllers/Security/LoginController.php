@@ -13,10 +13,12 @@ use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
 use Illuminate\Support\Facades\Log;
 use Laravel\Fortify\Http\Requests\LoginRequest;
+use Laravel\Fortify\Contracts\TwoFactorAuthenticatable;
 
 class LoginController extends Controller
 {
     protected $redirectTo = '/dashboard';
+    use TwoFactorAuthenticatable;
 
     public function __construct()
     {
@@ -30,7 +32,9 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('login');
+        Fortify::loginView(function () {
+            return view('/login');
+        });
     }
 
     /**
@@ -60,11 +64,12 @@ class LoginController extends Controller
                 return redirect('login')->withErrors(['error' => 'Tu cuenta ha sido deshabilitada']);
             } else {
                 $time = Carbon::now()->format('H:i:s');
-                /*auditoria: start*/ Pilates::setAudit(false, "$time - usuario: $user->name $user->last_name - Login"); /*auditoria: end*/
+                /*auditoria: start*/
+                Pilates::setAudit(false, "$time - usuario: $user->name $user->last_name - Login"); /*auditoria: end*/
             }
         } else {
         }
-        
+
     }
 
     /**

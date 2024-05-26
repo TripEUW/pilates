@@ -1,4 +1,5 @@
 <?php
+use Laravel\Fortify\FortifyServiceProvider;
 
 return [
 
@@ -180,8 +181,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\PilatesServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        App\Providers\DropboxServiceProvider::class
-
+        App\Providers\DropboxServiceProvider::class,
+        Laravel\Fortify\FortifyServiceProvider::class
     ],
 
     /*

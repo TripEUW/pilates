@@ -149,7 +149,7 @@ var KTDatatablesDataSourceAjaxServer = (function () {
             console.log("error in this file page management")
             if (
                 e instanceof TypeError &&
-                e.message.includes("$(...).DataTable is not a function")
+                e.message.includes("$(...).DataTable is not a function") 
             ) {
                 console.error(
                     "Error: DataTable no está definido. Recargando la página..."
@@ -158,6 +158,7 @@ var KTDatatablesDataSourceAjaxServer = (function () {
             } else {
                 console.error("Error desconocido:", e);
             }
+            location.reload();
         }
     };
 
