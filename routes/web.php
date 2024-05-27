@@ -15,9 +15,11 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('login', 'Security\LoginController@index')->name('login');
-Route::post('login', 'Security\LoginController@login')->name('login_in');
+Route::post('login', 'Security\LoginController@login')->name('login');
 Route::get('logout', 'Security\LoginController@logout')->name('logout');
-
+// 2fa routes
+Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.resend');
+Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
 //Auth::routes();
 //password reset routes
 Route::post('password/email', 'Auth\EmployeeForgotPasswordController@sendResetLinkEmail')->name('employee.password.email');
@@ -29,7 +31,7 @@ Route::get('password/reset/{token}', 'Auth\EmployeeResetPasswordController@showR
 Route::get('pdf/{id}/{id2}', 'PdfController@invoice');
 Route::get('print_php_info', 'PdfController@printPhp');
 
-Route::group(['prefix' => '/', 'middleware' => ['auth', 'enable_employee', 'rol.permission']], function () {
+Route::group(['prefix' => '/', 'middleware' => ['auth','twofactor', 'enable_employee', 'rol.permission']], function () {
 
 
 
