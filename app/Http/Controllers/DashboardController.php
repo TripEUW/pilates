@@ -51,7 +51,7 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function index()
     {
@@ -248,7 +248,7 @@ class DashboardController extends Controller
         $messages = [
             'group_selected.required' => 'Necesita seleccionar un grupo.',
             'employee_selected.required' => 'Necesita seleccionar un empleado.',
-            // 'client_selected.required' => 'Necesita seleccionar un cliente.',
+            'client_selected.required' => 'Necesita seleccionar un cliente.',
             'timepicker_end.after' => 'La hora final debe ser mayor que la hora inicial.',
             'group_selected.required_with' => 'Es necesario que elija un grupo.'
         ];

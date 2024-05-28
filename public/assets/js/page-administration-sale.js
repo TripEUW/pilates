@@ -273,10 +273,16 @@ var KTDatatablesDataSourceProducts = (function () {
     };
 })();
 
-jQuery(document).ready(function () {
-    KTDatatablesDataSourceAjaxServer.init();
-    KTDatatablesDataSourceProducts.init();
-});
+try {
+    jQuery(document).ready(function () {
+        KTDatatablesDataSourceAjaxServer.init();
+        KTDatatablesDataSourceProducts.init();
+    });
+    
+} catch (error) {
+    location.reload();
+
+}
 
 function showInfoCellInModal(title, content) {
     $("#modal-info-cell-title").text(title ? title : "");
@@ -291,18 +297,28 @@ function showModalSelectClient() {
     tableClients.ajax.reload();
 }
 $("#modal_select_client").on("show.bs.modal", function (e) {
-    tableClients.responsive.recalc();
-    setTimeout(function () {
-        $("div.dataTables_wrapper thead,div.dataTables_wrapper tbody").show();
+    try {
         tableClients.responsive.recalc();
-    }, 300);
+        setTimeout(function () {
+            $("div.dataTables_wrapper thead,div.dataTables_wrapper tbody").show();
+            tableClients.responsive.recalc();
+        }, 300);
+        
+    } catch (error) {
+        location.reload();
+    }
 });
 
 function showModalSelectProduct() {
-    $("div.dataTables_wrapper thead,div.dataTables_wrapper tbody").hide();
-    $("#modal_select_products").modal("show");
-    tableProducts.search("");
-    tableProducts.ajax.reload();
+    try {
+        $("div.dataTables_wrapper thead,div.dataTables_wrapper tbody").hide();
+        $("#modal_select_products").modal("show");
+        tableProducts.search("");
+        tableProducts.ajax.reload();
+        
+    } catch (error) {
+        location.reload();
+    }
 }
 $("#modal_select_products").on("show.bs.modal", function (e) {
     tableProducts.responsive.recalc();

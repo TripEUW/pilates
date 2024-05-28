@@ -87,7 +87,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- begin:: Header Mobile -->
 		<div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
 			<div class="kt-header-mobile__logo">
-				<a href="index.html">
+				<a href="/">
 					<img  class="logo-dashboard-mobile" alt="Logo" src="{{asset("assets")}}/images/logo-dashboard.png" />
 				</a>
 			</div>

@@ -1,6 +1,5 @@
 
 <input type="hidden" name="_token" id="token_ajax_by_reload" value="{{ Session::token() }}">
-<audio id="notification-audio"><source src="{{asset("assets/audio/")}}/insight.mp3" type="audio/mp3"></audio>
 <input type="hidden" name="_token" id="token_ajax_notification" value="{{ Session::token() }}">
 <!--start: Modal modal_redirect -->
 <div class="modal fade" id="modal_redirect_notification" tabindex="-1" role="dialog"   aria-hidden="true">

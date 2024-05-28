@@ -396,45 +396,49 @@ var DatatableDataRoomSelectedServer = function() {
 
     };
 }();
-
-jQuery(document).ready(function() {
-DatatableDataRoomServer.init();
-DatatableDataEmployeeSelectedServer.init();
-DatatableDataRoomSelectedServer.init();
-DatatableDataGroupServer.init();
-
-tableRoom.on( 'draw', function () {
-if($('#select-all-rooms').is(":checked")){
-var rows = tableRoom.rows({ 'search': 'applied' }).nodes();
-// Check/uncheck checkboxes for all rows in the table
-$('input[type="checkbox"]', rows).prop('checked', true);
+try {
+    jQuery(document).ready(function() {
+    DatatableDataRoomServer.init();
+    DatatableDataEmployeeSelectedServer.init();
+    DatatableDataRoomSelectedServer.init();
+    DatatableDataGroupServer.init();
+    
+    tableRoom.on( 'draw', function () {
+    if($('#select-all-rooms').is(":checked")){
+    var rows = tableRoom.rows({ 'search': 'applied' }).nodes();
+    // Check/uncheck checkboxes for all rows in the table
+    $('input[type="checkbox"]', rows).prop('checked', true);
+    }
+    });
+    
+    $('#select-all-rooms').on('click', function(){
+    // Get all rows with search applied
+    var rows = tableRoom.rows({ 'search': 'applied' }).nodes();
+    // Check/uncheck checkboxes for all rows in the table
+    $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+    
+    
+    tableGroup.on( 'draw', function () {
+    if($('#select-all-group').is(":checked")){
+    var rows = tableGroup.rows({ 'search': 'applied' }).nodes();
+    // Check/uncheck checkboxes for all rows in the table
+    $('input[type="checkbox"]', rows).prop('checked', true);
+    }
+    });
+    
+    $('#select-all-group').on('click', function(){
+    // Get all rows with search applied
+    var rows = tableGroup.rows({ 'search': 'applied' }).nodes();
+    // Check/uncheck checkboxes for all rows in the table
+    $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+    
+    });
+    
+} catch (error) {
+    location.reload()
 }
-});
-
-$('#select-all-rooms').on('click', function(){
-// Get all rows with search applied
-var rows = tableRoom.rows({ 'search': 'applied' }).nodes();
-// Check/uncheck checkboxes for all rows in the table
-$('input[type="checkbox"]', rows).prop('checked', this.checked);
-});
-
-
-tableGroup.on( 'draw', function () {
-if($('#select-all-group').is(":checked")){
-var rows = tableGroup.rows({ 'search': 'applied' }).nodes();
-// Check/uncheck checkboxes for all rows in the table
-$('input[type="checkbox"]', rows).prop('checked', true);
-}
-});
-
-$('#select-all-group').on('click', function(){
-// Get all rows with search applied
-var rows = tableGroup.rows({ 'search': 'applied' }).nodes();
-// Check/uncheck checkboxes for all rows in the table
-$('input[type="checkbox"]', rows).prop('checked', this.checked);
-});
-
-});
 
 function showInfoCellInModal(title,content){
     $('#modal-info-cell-title').text(((title)? title  : ''));

@@ -44,7 +44,6 @@ class Client extends Model
     {
         try {
             $date = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y');
-            Log::info($date);
         } catch (\Carbon\Exceptions\InvalidFormatException $e) {
             error_log("Error al crear la fecha en el modelo Client: " . $e->getMessage());
         }

@@ -144,27 +144,30 @@ var KTDatatablesDataSourceAjaxServer = function() {
 
 }();
 
-
-jQuery(document).ready(function() {
-    KTDatatablesDataSourceAjaxServer.init();
-    // Handle click on "Select all" control
-    $('#select-all-backups').on('click', function() {
-        // Get all rows with search applied
-        var rows = tableBackup.rows({ 'search': 'applied' }).nodes();
-        // Check/uncheck checkboxes for all rows in the table
-        $('input[type="checkbox"]', rows).prop('checked', this.checked);
-    });
-
-    tableBackup.on('draw', function() {
-        if ($('#select-all-backups').is(":checked")) {
+try {
+    jQuery(document).ready(function() {
+        KTDatatablesDataSourceAjaxServer.init();
+        // Handle click on "Select all" control
+        $('#select-all-backups').on('click', function() {
+            // Get all rows with search applied
             var rows = tableBackup.rows({ 'search': 'applied' }).nodes();
             // Check/uncheck checkboxes for all rows in the table
-            $('input[type="checkbox"]', rows).prop('checked', true);
-        }
+            $('input[type="checkbox"]', rows).prop('checked', this.checked);
+        });
+    
+        tableBackup.on('draw', function() {
+            if ($('#select-all-backups').is(":checked")) {
+                var rows = tableBackup.rows({ 'search': 'applied' }).nodes();
+                // Check/uncheck checkboxes for all rows in the table
+                $('input[type="checkbox"]', rows).prop('checked', true);
+            }
+        });
+        // var head_item = table.columns(0).header();
+        // $(head_item ).addClass('clean-icon-table');
     });
-    // var head_item = table.columns(0).header();
-    // $(head_item ).addClass('clean-icon-table');
-});
+} catch (error) {
+    location.reload();
+}
 
 function showInfoCellInModal(title, content) {
     $('#modal-info-cell-title').text(((title) ? title : ''));

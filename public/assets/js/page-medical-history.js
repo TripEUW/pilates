@@ -305,52 +305,55 @@ var KTDatatablesDataSourceAjaxServerDocuments = function() {
 
 }();
 
-
-jQuery(document).ready(function() {
- 
-    KTDatatablesDataSourceAjaxServer.init();
-    KTDatatablesDataSourceAjaxServerDocuments.init();
-
-// Handle click on "Select all" control
-$('#select-all-clients').on('click', function(){
-// Get all rows with search applied
-var rows = tableClients.rows({ 'search': 'applied' }).nodes();
-// Check/uncheck checkboxes for all rows in the table
-$('input[type="checkbox"]', rows).prop('checked', this.checked);
-});
-
-tableClients.on( 'draw', function () {
-if($('#select-all-clients').is(":checked")){
-var rows = tableClients.rows({ 'search': 'applied' }).nodes();
-// Check/uncheck checkboxes for all rows in the table
-$('input[type="checkbox"]', rows).prop('checked', true);
+try {    
+    jQuery(document).ready(function() {
+     
+        KTDatatablesDataSourceAjaxServer.init();
+        KTDatatablesDataSourceAjaxServerDocuments.init();
+    
+    // Handle click on "Select all" control
+    $('#select-all-clients').on('click', function(){
+    // Get all rows with search applied
+    var rows = tableClients.rows({ 'search': 'applied' }).nodes();
+    // Check/uncheck checkboxes for all rows in the table
+    $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+    
+    tableClients.on( 'draw', function () {
+    if($('#select-all-clients').is(":checked")){
+    var rows = tableClients.rows({ 'search': 'applied' }).nodes();
+    // Check/uncheck checkboxes for all rows in the table
+    $('input[type="checkbox"]', rows).prop('checked', true);
+    }
+    });
+    
+    //////// documents
+    
+    // Handle click on "Select all" control
+    $('#select-all-documents').on('click', function(){
+    // Get all rows with search applied
+    var rows = tableDocuments.rows({ 'search': 'applied' }).nodes();
+    // Check/uncheck checkboxes for all rows in the table
+    $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+    
+    tableDocuments.on( 'draw', function () {
+    if($('#select-all-documents').is(":checked")){
+    var rows = tableDocuments.rows({ 'search': 'applied' }).nodes();
+    // Check/uncheck checkboxes for all rows in the table
+    $('input[type="checkbox"]', rows).prop('checked', true);
+    }
+    });
+    
+    if(clientSelected!="-1"){
+    $("#default-content-documents").hide();
+    $("#content-documents").show();
+    $("#name-selected").text(window.localStorage.getItem('clientName'));
+    }
+    });
+} catch (error) {
+    location.reload();
 }
-});
-
-//////// documents
-
-// Handle click on "Select all" control
-$('#select-all-documents').on('click', function(){
-// Get all rows with search applied
-var rows = tableDocuments.rows({ 'search': 'applied' }).nodes();
-// Check/uncheck checkboxes for all rows in the table
-$('input[type="checkbox"]', rows).prop('checked', this.checked);
-});
-
-tableDocuments.on( 'draw', function () {
-if($('#select-all-documents').is(":checked")){
-var rows = tableDocuments.rows({ 'search': 'applied' }).nodes();
-// Check/uncheck checkboxes for all rows in the table
-$('input[type="checkbox"]', rows).prop('checked', true);
-}
-});
-
-if(clientSelected!="-1"){
-$("#default-content-documents").hide();
-$("#content-documents").show();
-$("#name-selected").text(window.localStorage.getItem('clientName'));
-}
-});
 
 function showInfoCellInModal(title,content){
     $('#modal-info-cell-title').text(((title)? title  : ''));

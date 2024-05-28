@@ -31,7 +31,31 @@
     <title>Login</title>
     <meta name="description" content="Login page example">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="{{ asset("assets/$theme") }}/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
+  <!--begin:: Global Mandatory Vendors -->
+    <script src="{{ asset("assets/$theme") }}/vendors/general/jquery/dist/jquery.js" type="text/javascript"></script>
+    <script src="{{ asset("assets/$theme") }}/vendors/general/popper.js/dist/umd/popper.js" type="text/javascript">
+    </script>
+    <script src="{{ asset("assets/$theme") }}/vendors/general/bootstrap/dist/js/bootstrap.min.js" type="text/javascript">
+    </script>
+    <script src="{{ asset("assets/$theme") }}/vendors/general/js-cookie/src/js.cookie.js" type="text/javascript"></script>
+    <script src="{{ asset("assets/$theme") }}/vendors/general/moment/min/moment.min.js" type="text/javascript"></script>
+    <script src="{{ asset("assets/$theme") }}/vendors/general/tooltip.js/dist/umd/tooltip.min.js" type="text/javascript">
+    </script>
+    <script src="{{ asset("assets/$theme") }}/vendors/general/perfect-scrollbar/dist/perfect-scrollbar.js"
+        type="text/javascript"></script>
+    <script src="{{ asset("assets/$theme") }}/vendors/general/sticky-js/dist/sticky.min.js" type="text/javascript">
+    </script>
+    <script src="{{ asset("assets/$theme") }}/vendors/general/wnumb/wNumb.js" type="text/javascript"></script>
 
+    <script src="{{ asset("assets/$theme") }}/vendors/general/jquery-validation/dist/jquery.validate.js"
+        type="text/javascript"></script>
+    <script src="{{ asset("assets/$theme") }}/vendors/custom/components/vendors/jquery-validation/init.js"
+        type="text/javascript"></script>
+    <script src="{{ asset("assets/$theme") }}/vendors/general/jquery-validation/dist/localization/messages_es.js"
+        type="text/javascript"></script>
+
+    <!--end:: Global Mandatory Vendors -->
     <!--begin::Fonts -->
     <script src="{{ asset("assets/$theme") }}/vendors/general/webfont/1.6.16/webfont.js"></script>
 
@@ -70,7 +94,6 @@
     <!--end:: Global Optional Vendors -->
 
     <!--begin::Global Theme Styles(used by all pages) -->
-    <link href="{{ asset("assets/$theme") }}/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
 
     <!--end::Global Theme Styles -->
 
@@ -118,30 +141,7 @@
     <!-- end::Global Config -->
 
 
-    <!--begin:: Global Mandatory Vendors -->
-    <script src="{{ asset("assets/$theme") }}/vendors/general/jquery/dist/jquery.js" type="text/javascript"></script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/popper.js/dist/umd/popper.js" type="text/javascript">
-    </script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/bootstrap/dist/js/bootstrap.min.js" type="text/javascript">
-    </script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/js-cookie/src/js.cookie.js" type="text/javascript"></script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/moment/min/moment.min.js" type="text/javascript"></script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/tooltip.js/dist/umd/tooltip.min.js" type="text/javascript">
-    </script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/perfect-scrollbar/dist/perfect-scrollbar.js"
-        type="text/javascript"></script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/sticky-js/dist/sticky.min.js" type="text/javascript">
-    </script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/wnumb/wNumb.js" type="text/javascript"></script>
-
-    <script src="{{ asset("assets/$theme") }}/vendors/general/jquery-validation/dist/jquery.validate.js"
-        type="text/javascript"></script>
-    <script src="{{ asset("assets/$theme") }}/vendors/custom/components/vendors/jquery-validation/init.js"
-        type="text/javascript"></script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/jquery-validation/dist/localization/messages_es.js"
-        type="text/javascript"></script>
-
-    <!--end:: Global Mandatory Vendors -->
+  
 
 
     <!--begin::Global Theme Bundle(used by all pages) -->

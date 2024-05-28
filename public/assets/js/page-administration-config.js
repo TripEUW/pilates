@@ -99,25 +99,28 @@ var KTDatatablesNoWorkDays = function() {
 
 }();
 
-
-jQuery(document).ready(function() {
-KTDatatablesNoWorkDays.init();
-
-$('#select-all-days').on('click', function(){
-// Get all rows with search applied
-var rows = tableNoWorksDays.rows({ 'search': 'applied' }).nodes();
-// Check/uncheck checkboxes for all rows in the table
-$('input[type="checkbox"]', rows).prop('checked', this.checked);
-});
-
-tableNoWorksDays.on( 'draw', function () {
-if($('#select-all-days').is(":checked")){
-var rows = tableNoWorksDays.rows({ 'search': 'applied' }).nodes();
-// Check/uncheck checkboxes for all rows in the table
-$('input[type="checkbox"]', rows).prop('checked', true);
+try {
+    jQuery(document).ready(function() {
+    KTDatatablesNoWorkDays.init();
+    
+    $('#select-all-days').on('click', function(){
+    // Get all rows with search applied
+    var rows = tableNoWorksDays.rows({ 'search': 'applied' }).nodes();
+    // Check/uncheck checkboxes for all rows in the table
+    $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+    
+    tableNoWorksDays.on( 'draw', function () {
+    if($('#select-all-days').is(":checked")){
+    var rows = tableNoWorksDays.rows({ 'search': 'applied' }).nodes();
+    // Check/uncheck checkboxes for all rows in the table
+    $('input[type="checkbox"]', rows).prop('checked', true);
+    }
+    });
+    });
+} catch (error) {
+    location.reload();    
 }
-});
-});
 
 ! function(a) { a.fn.datepicker.dates.es = { days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"], daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"], daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"], months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"], monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"], today: "Hoy", monthsTitle: "Meses", clear: "Borrar", weekStart: 1, format: "dd/mm/yyyy" } }(jQuery);
 $('#kt_datepicker').datepicker({
