@@ -10,7 +10,7 @@
 
 <div class="col-10 col-xl-10 d-flex justify-content-center align-items-center">
 <a href="{{route('dashboard')}}">
-<img class="logo-dashboard-long" alt="Logo" src="{{asset("assets")}}/images/logo-dashboard.png" />
+<img class="logo-dashboard-long" alt="Logo" src="{{url('assets/images/logo-dashboard.png')}}" />
 </a>
 </div>
 <div class="col-2 col-xl-2 d-flex justify-content-center  align-items-center">

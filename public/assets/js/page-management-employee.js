@@ -126,19 +126,7 @@ var KTDatatablesDataSourceAjaxServer = (function () {
                 ],
                 order: [[0, "desc"]],
             });
-        } catch (error) {
-            console.log("error in this file page management employeee");
-            if (
-                e instanceof TypeError &&
-                e.message.includes("$(...).DataTable is not a function")
-            ) {
-                console.error(
-                    "Error: DataTable no está definido. Recargando la página..."
-                );
-                location.reload();
-            } else {
-                console.error("Error desconocido:", e);
-            }
+        } catch (e) {
             location.reload();
         }
         // begin first table

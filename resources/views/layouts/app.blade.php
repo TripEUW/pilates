@@ -31,11 +31,10 @@
     <title>Login</title>
     <meta name="description" content="Login page example">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="{{ asset("assets/$theme") }}/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
-  <!--begin:: Global Mandatory Vendors -->
+    <link href="{{ url("assets/$theme/demo/default/base/style.bundle.css") }}" rel="stylesheet" type="text/css" />
+    <!--begin:: Global Mandatory Vendors -->
     <script src="{{ asset("assets/$theme") }}/vendors/general/jquery/dist/jquery.js" type="text/javascript"></script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/popper.js/dist/umd/popper.js" type="text/javascript">
-    </script>
+    <script src="{{ asset("assets/$theme") }}/vendors/general/popper.js/dist/umd/popper.js" type="text/javascript"></script>
     <script src="{{ asset("assets/$theme") }}/vendors/general/bootstrap/dist/js/bootstrap.min.js" type="text/javascript">
     </script>
     <script src="{{ asset("assets/$theme") }}/vendors/general/js-cookie/src/js.cookie.js" type="text/javascript"></script>
@@ -53,7 +52,7 @@
         type="text/javascript"></script>
     <script src="{{ asset("assets/$theme") }}/vendors/general/jquery-validation/dist/localization/messages_es.js"
         type="text/javascript"></script>
-    <script  src="{{ asset("assets/js") }}/vendors/general/moment/min/moment.min.js" type="text/javascript"></script>
+    <script src="{{ asset('assets/js') }}/vendors/general/moment/min/moment.min.js" type="text/javascript"></script>
 
     <!--end:: Global Mandatory Vendors -->
     <!--begin::Fonts -->
@@ -67,28 +66,25 @@
     <!--end::Page Custom Styles -->
 
     <!--begin:: Global Mandatory Vendors -->
-    <link href="{{ asset("assets/$theme") }}/vendors/general/perfect-scrollbar/css/perfect-scrollbar.css"
+    <link href="{{ url("assets/$theme/vendors/general/perfect-scrollbar/css/perfect-scrollbar.css") }}"
         rel="stylesheet" type="text/css" />
 
     <!--end:: Global Mandatory Vendors -->
 
     <!--begin:: Global Optional Vendors -->
-    <link href="{{ asset("assets/$theme") }}/vendors/general/animate.css/animate.css" rel="stylesheet"
+    <link href="{{ url("assets/$theme/vendors/general/animate.css/animate.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url("assets/$theme/vendors/general/toastr/build/toastr.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url("assets/$theme/vendors/general/morris.js/morris.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url("assets/$theme/vendors/general/sweetalert2/dist/sweetalert2.css") }}" rel="stylesheet"
         type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/vendors/general/toastr/build/toastr.css" rel="stylesheet"
+    <link href="{{ url("assets/$theme/vendors/general/socicon/css/socicon.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url("assets/$theme/vendors/custom/vendors/line-awesome/css/line-awesome.css") }}" rel="stylesheet"
         type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/vendors/general/morris.js/morris.css" rel="stylesheet" type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/vendors/general/sweetalert2/dist/sweetalert2.css" rel="stylesheet"
+    <link href="{{ url("assets/$theme/vendors/custom/vendors/flaticon/flaticon.css") }}" rel="stylesheet"
         type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/vendors/general/socicon/css/socicon.css" rel="stylesheet"
+    <link href="{{ url("assets/$theme/vendors/custom/vendors/flaticon2/flaticon.css") }}" rel="stylesheet"
         type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/vendors/custom/vendors/line-awesome/css/line-awesome.css" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/vendors/custom/vendors/flaticon/flaticon.css" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/vendors/custom/vendors/flaticon2/flaticon.css" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/vendors/custom/vendors/fontawesome5/css/all.min.css" rel="stylesheet"
+    <link href="{{ url("assets/$theme/vendors/custom/vendors/fontawesome5/css/all.min.css") }}" rel="stylesheet"
         type="text/css" />
     @yield('styles_optional_vendors')
     <!--end:: Global Optional Vendors -->
@@ -98,20 +94,18 @@
     <!--end::Global Theme Styles -->
 
     <!--begin::Layout Skins(used by all pages) -->
-    <link href="{{ asset("assets/$theme") }}/demo/default/skins/header/base/light.css" rel="stylesheet"
+    <link href="{{ url("assets/$theme/demo/default/skins/header/base/light.css") }}" rel="stylesheet"
         type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/demo/default/skins/header/menu/light.css" rel="stylesheet"
+    <link href="{{ url("assets/$theme/demo/default/skins/header/menu/light.css") }}" rel="stylesheet"
         type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/demo/default/skins/aside/dark.css" rel="stylesheet" type="text/css" />
-
-    <link href="{{ asset("assets/$theme") }}/demo/default/skins/brand/dark.css" rel="stylesheet" type="text/css" />
-    <link href="{{ asset("assets/$theme") }}/demo/default/skins/aside/dark.css" rel="stylesheet" type="text/css" />
-
+    <link href="{{ url("assets/$theme/demo/default/skins/aside/dark.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url("assets/$theme/demo/default/skins/brand/dark.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url("assets/$theme/demo/default/skins/aside/dark.css") }}" rel="stylesheet" type="text/css" />
     <!--end::Layout Skins -->
     <link rel="shortcut icon" href="{{ asset('assets') }}/images/favicon.ico" />
 
     <!--begin::Custom Global Theme Styles(used by all pages) -->
-    <link href="{{ asset('assets/css') }}/custom.style.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('assets/css/custom.style.css') }}" rel="stylesheet" type="text/css" />
     <!--begin::Custom Global Theme Styles(used by all pages) -->
 </head>
 
@@ -143,7 +137,7 @@
     <!-- end::Global Config -->
 
 
-  
+
 
 
     <!--begin::Global Theme Bundle(used by all pages) -->
