@@ -74,6 +74,7 @@
                                     class="btn btn-secondary btn-pill kt-login__btn-secondary">Cancelar</button>
                             </div>
                         </form>
+                        
                     </div>
 
                 </div>

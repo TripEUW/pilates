@@ -66,7 +66,7 @@ class Pilates
     public static function getRolPermissionStatus(Request $request = null, $route = false, $moduleTitle = false)
     {
         //! Need to understand more about the get Role Permission Status allow view all menu
-        return true;
+        // return true;
         $flagRoute = false;
         $flagTitle = false;
         $employeeModules = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')

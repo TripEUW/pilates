@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use PhpParser\Node\Stmt\TryCatch;
 
 class EmployeeProfileController extends Controller
 {

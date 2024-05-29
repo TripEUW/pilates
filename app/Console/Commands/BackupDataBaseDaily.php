@@ -75,8 +75,7 @@ class BackupDataBaseDaily extends Command
                 if (!Storage::disk('public')->has($pathForSaveBackup))
                     Storage::disk('public')->makeDirectory($pathForSaveBackup);
 
-                $pathForSaveBackup = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix() . "/$pathForSaveBackup";
-
+                $pathForSaveBackup = Storage::disk('public')->path($pathForSaveBackup);
                 $username = config('database.connections.mysql.username');
                 $password = config('database.connections.mysql.password');
                 $host = config('database.connections.mysql.host');
@@ -86,9 +85,19 @@ class BackupDataBaseDaily extends Command
 
                 $passwordPart = ((empty(config('database.connections.mysql.password')) ? "" : "-p'{$password}'"));
 
-                $this->process = new Process(
-                    "{$pathForMysqldump}mysqldump -h {$host} -u {$username} {$passwordPart} --port={$port} --ignore-table={$database}.backup {$database} > {$pathForSaveBackup}/{$nameFileBackup}"
-                );
+                $this->process = new Process([
+                    "{$pathForMysqldump}mysqldump",
+                    "-h",
+                    "{$host}",
+                    "-u",
+                    "{$username}",
+                    "{$passwordPart}",
+                    "--port={$port}",
+                    "--ignore-table={$database}.backup",
+                    "{$database}",
+                    ">",
+                    "{$pathForSaveBackup}/{$nameFileBackup}"
+                ]);
 
                 $backupDB = Backup::create([
                     'date_create' => now(),

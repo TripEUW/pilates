@@ -39,7 +39,6 @@
     <script src="{{ asset("assets/$theme") }}/vendors/general/bootstrap/dist/js/bootstrap.min.js" type="text/javascript">
     </script>
     <script src="{{ asset("assets/$theme") }}/vendors/general/js-cookie/src/js.cookie.js" type="text/javascript"></script>
-    <script src="{{ asset("assets/$theme") }}/vendors/general/moment/min/moment.min.js" type="text/javascript"></script>
     <script src="{{ asset("assets/$theme") }}/vendors/general/tooltip.js/dist/umd/tooltip.min.js" type="text/javascript">
     </script>
     <script src="{{ asset("assets/$theme") }}/vendors/general/perfect-scrollbar/dist/perfect-scrollbar.js"
@@ -54,6 +53,7 @@
         type="text/javascript"></script>
     <script src="{{ asset("assets/$theme") }}/vendors/general/jquery-validation/dist/localization/messages_es.js"
         type="text/javascript"></script>
+    <script  src="{{ asset("assets/js") }}/vendors/general/moment/min/moment.min.js" type="text/javascript"></script>
 
     <!--end:: Global Mandatory Vendors -->
     <!--begin::Fonts -->
@@ -102,6 +102,8 @@
         type="text/css" />
     <link href="{{ asset("assets/$theme") }}/demo/default/skins/header/menu/light.css" rel="stylesheet"
         type="text/css" />
+    <link href="{{ asset("assets/$theme") }}/demo/default/skins/aside/dark.css" rel="stylesheet" type="text/css" />
+
     <link href="{{ asset("assets/$theme") }}/demo/default/skins/brand/dark.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset("assets/$theme") }}/demo/default/skins/aside/dark.css" rel="stylesheet" type="text/css" />
 

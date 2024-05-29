@@ -1265,48 +1265,52 @@ var KTDatatablesDataSourceAjaxServerSessionsGroupMove = function() {
 
 
 
-
-jQuery(document).ready(function() {
- 
-DatatableDataGroupServer.init();
-KTDatatablesDataSourceAjaxServer.init();
-KTDatatablesDataSourceAjaxServerSessionsGroup.init();
-KTDatatablesDataSourceAjaxServerSessionsGroupMove.init();
-DatatableDataEmployeeSelectedServer.init();
-DatatableDataRoomSelectedServer.init();
-DatatableDataEmployeeSetGroup.init();
-DatatableDataGroupsSessions.init();
-DatatableDataGroupsSessions2.init();
-KTDatatablesDataSourceAjaxServerSessionsGroup2.init();
-
-    $('#select-all-sessions-move').on('click', function () {
-        var rows = tableSessionsGroupMove.rows({ 'search': 'applied' }).nodes();
-        $('input[type="checkbox"]', rows).prop('checked', this.checked);
-    });
-
-    tableSessionsGroupMove.on('draw', function () {
-        if ($('#select-all-sessions-move').is(":checked")) {
-            var rows = tableSessionsGroupMove.rows({ 'search': 'applied' }).nodes();
-            $('input[type="checkbox"]', rows).prop('checked', true);
-        }
-    });
-
-    ///
-
+try {
+    jQuery(document).ready(function() {
+     
+    DatatableDataGroupServer.init();
+    KTDatatablesDataSourceAjaxServer.init();
+    KTDatatablesDataSourceAjaxServerSessionsGroup.init();
+    KTDatatablesDataSourceAjaxServerSessionsGroupMove.init();
+    DatatableDataEmployeeSelectedServer.init();
+    DatatableDataRoomSelectedServer.init();
+    DatatableDataEmployeeSetGroup.init();
+    DatatableDataGroupsSessions.init();
+    DatatableDataGroupsSessions2.init();
+    KTDatatablesDataSourceAjaxServerSessionsGroup2.init();
     
-    $('#select-all-sessions-edit').on('click', function () {
-        var rows = tableSessionsGroup.rows({ 'search': 'applied' }).nodes();
-        $('input[type="checkbox"]', rows).prop('checked', this.checked);
-    });
-
-    tableSessionsGroup.on('draw', function () {
-        if ($('#select-all-sessions-edit').is(":checked")) {
+        $('#select-all-sessions-move').on('click', function () {
+            var rows = tableSessionsGroupMove.rows({ 'search': 'applied' }).nodes();
+            $('input[type="checkbox"]', rows).prop('checked', this.checked);
+        });
+    
+        tableSessionsGroupMove.on('draw', function () {
+            if ($('#select-all-sessions-move').is(":checked")) {
+                var rows = tableSessionsGroupMove.rows({ 'search': 'applied' }).nodes();
+                $('input[type="checkbox"]', rows).prop('checked', true);
+            }
+        });
+    
+        ///
+    
+        
+        $('#select-all-sessions-edit').on('click', function () {
             var rows = tableSessionsGroup.rows({ 'search': 'applied' }).nodes();
-            $('input[type="checkbox"]', rows).prop('checked', true);
-        }
+            $('input[type="checkbox"]', rows).prop('checked', this.checked);
+        });
+    
+        tableSessionsGroup.on('draw', function () {
+            if ($('#select-all-sessions-edit').is(":checked")) {
+                var rows = tableSessionsGroup.rows({ 'search': 'applied' }).nodes();
+                $('input[type="checkbox"]', rows).prop('checked', true);
+            }
+        });
+    
     });
-
-});
+    
+} catch (error) {
+    location.reload();
+}
 
 var hideAddGroup=true;
 function showModalAddGroup(mode=true){
