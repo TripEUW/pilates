@@ -240,14 +240,14 @@ Route::group(['prefix' => '/', 'middleware' => ['auth','twofactor', 'enable_empl
     //auditorias
     Route::get('audit', 'AuditController@index')->name('audit');
     Route::post('audit/downlaod', 'AuditController@download')->name('audit_download');//
-
-
+    Route::get('register', function () {
+        return redirect('/');
+    });
 
 
 
 
 });
 
-Auth::routes();
-
+Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home');

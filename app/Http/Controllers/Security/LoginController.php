@@ -94,5 +94,10 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
         return redirect('/');
     }
+    // overwrite register method to return login
+    public function register(Request $request)
+    {
+        return redirect('/');
+    }
 }
 

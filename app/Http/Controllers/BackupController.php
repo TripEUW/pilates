@@ -62,6 +62,7 @@ class BackupController extends Controller
     public function destroy(ValidationDeleteBackup $request)
     {
         $config = Configuration::first();
+        // !ERROR in config
         $pathForSaveBackup = (isset($config->path_backups_day)) ? $config->path_backups_day : config('backups.default_path_backups_day');
         $pathForSaveBackupFiles = (isset($config->path_gestor)) ? $config->path_gestor : config('backups.default_path_gestor');
 
