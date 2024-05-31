@@ -47,7 +47,7 @@ class BackupDataBaseDaily extends Command
 
             try {
                 if (date('w') == $dayCutting && $forceBackup == false) {
-                    $backups =  DB::select("SELECT * FROM backup WHERE WEEKDAY(backup.date_create)!='$dayToPreserve'");
+                    $backups = DB::select("SELECT * FROM backup WHERE WEEKDAY(backup.date_create)!='$dayToPreserve'");
 
 
                     foreach ($backups as $key => $backup) {
@@ -83,22 +83,12 @@ class BackupDataBaseDaily extends Command
                 $database = config('database.connections.mysql.database');
                 $pathForMysqldump = config('backups.path_for_mysqldump');
 
-                $passwordPart = ((empty(config('database.connections.mysql.password')) ? "" : "-p'{$password}'"));
-
+                $passwordPart = ((empty(config('database.connections.mysql.password')) ? "" : "-p{$password}"));
                 $this->process = new Process([
-                    "{$pathForMysqldump}mysqldump",
-                    "-h",
-                    "{$host}",
-                    "-u",
-                    "{$username}",
-                    "{$passwordPart}",
-                    "--port={$port}",
-                    "--ignore-table={$database}.backup",
-                    "{$database}",
-                    ">",
-                    "{$pathForSaveBackup}/{$nameFileBackup}"
+                    "bash",
+                    "-c",
+                    "mysqldump -h {$host} -u {$username} {$passwordPart} --port={$port} --ignore-table={$database}.backup {$database} > {$pathForSaveBackup}/{$nameFileBackup}"
                 ]);
-
                 $backupDB = Backup::create([
                     'date_create' => now(),
                     'file_name' => $nameFileBackup,
@@ -113,13 +103,13 @@ class BackupDataBaseDaily extends Command
 
                     $fileBackup = Storage::disk('public')->get("$tmpPath/$nameFileBackup");
                     $fileSize = Storage::disk('public')->size("$tmpPath/$nameFileBackup");
-                    Storage::disk('dropbox')->put("$tmpPath/$nameFileBackup", $fileBackup);
+                    // Storage::disk('dropbox')->put("$tmpPath/$nameFileBackup", $fileBackup);
 
-                    if (!Storage::disk('dropbox')->has("$tmpPath/$nameFileBackup")) {
-                        $backupDB->update(['status' => '2']); //error create
-                        Log::error('Daily DB Backup - The base copy was created successfully but had a problem uploading the backup to Dropbox.');
-                        return ['status' => '2', 'response' => "La copia local fue creada con éxito pero ocurrió un problema al subir la copia de seguridad a Dropbox."];
-                    }
+                    // if (!Storage::disk('dropbox')->has("$tmpPath/$nameFileBackup")) {
+                    //     $backupDB->update(['status' => '2']); //error create
+                    //     Log::error('Daily DB Backup - The base copy was created successfully but had a problem uploading the backup to Dropbox.');
+                    //     return ['status' => '2', 'response' => "La copia local fue creada con éxito pero ocurrió un problema al subir la copia de seguridad a Dropbox."];
+                    // }
 
 
                     $files = Storage::disk('public')->files($pathForSaveBackupFiles);
@@ -127,39 +117,19 @@ class BackupDataBaseDaily extends Command
                         $nameFile = basename($file);
                         if (!Storage::disk('dropbox')->has("$file")) {
                             $fileDoc = Storage::disk('public')->get($file);
-                            Storage::disk('dropbox')->put("$pathForSaveBackupFiles/$nameFile", $fileDoc);
+                            // Storage::disk('dropbox')->put("$pathForSaveBackupFiles/$nameFile", $fileDoc);
                             //file no exist in drop box, but upload now
                         } else if (Storage::disk('dropbox')->has("$file") && Storage::disk('public')->has("$file")) {
-                            $sizeDropbox = Storage::disk('dropbox')->size("$file");
+                            // $sizeDropbox = Storage::disk('dropbox')->size("$file");
                             $sizePublic = Storage::disk('public')->size("$file");
-                            if ($sizeDropbox != $sizePublic) {
-                                $fileDoc = Storage::disk('public')->get($file);
-                                Storage::disk('dropbox')->put("$pathForSaveBackupFiles/$nameFile", $fileDoc);
-                            }
+                            // if ($sizeDropbox != $sizePublic) {
+                                // $fileDoc = Storage::disk('public')->get($file);
+                                // Storage::disk('dropbox')->put("$pathForSaveBackupFiles/$nameFile", $fileDoc);
+                            // }
                         }
                     }
 
 
-                    foreach ($admins as  $admin) {
-                        //start notification
-                        $title_n = 'Copia de seguridad creada con éxito.';
-                        $msg_n = '';
-                        $path_n = 'administration_backup';
-                        $cod_sender = '';
-                        $cod_receiver = $admin->id;
-                        $type_sender = 0;
-                        $type_receiver = $admin->id_rol;
-                        $type_notification = 'redirect'; //redirect,message,modal_redirect,none
-                        $use_lang_title = 'false';
-                        $use_lang_msg = 'false';
-                        $paramsTitleNotifi = [];
-                        $paramsMsgNotifi = [];
-                        $sendMail = false;
-                        $icon = 'flaticon-upload-1 icon-font-green'; //name-image.jpg or html code
-                        $type_icon = 'html-class'; //html-class, image-public
-                        Pilates::sendNotification($title_n, $msg_n, $path_n, $cod_sender, $cod_receiver, $type_sender, $type_receiver, $type_notification, $use_lang_title, $use_lang_msg, $paramsTitleNotifi, $paramsMsgNotifi, $sendMail, $icon, $type_icon);
-                        //end notification
-                    }
 
 
                     //creado con éxito
@@ -168,7 +138,7 @@ class BackupDataBaseDaily extends Command
                 } else {
                     $backupDB->update(['status' => '4']); //error create
 
-                    foreach ($admins as  $admin) {
+                    foreach ($admins as $admin) {
                         //start notification
                         $title_n = 'Copia de seguridad incompleta.';
                         $msg_n = 'Ocurrió un problema al crear la copia de seguridad principal.';
@@ -195,7 +165,7 @@ class BackupDataBaseDaily extends Command
             } catch (ProcessFailedException $exc) {
                 $backupDB->update(['status' => '4']); //error
 
-                foreach ($admins as  $admin) {
+                foreach ($admins as $admin) {
                     //start notification
                     $title_n = 'La copia de seguridad no se completo.';
                     $msg_n = 'Ocurrió un error al crear la copia, la configuración del servidor no es correcta o el servicio no esta disponible.';

@@ -70,8 +70,7 @@ Agregar Cliente
 <div class="kt-portlet__body w-100 ">
 <div class="container">
 <!--begin: Datatable -->
-<button type="button" class="btn btn-sm btn-primary btn-brand--icon my-2" onclick="showHiddenFields('kt_table_clients',this)">Ver campos protegidos</button>
-
+<button id="btn-h-f" type="button" class="btn btn-sm btn-primary btn-brand--icon my-2" onclick="showHiddenFields('kt_table_clients',this)">Ver campos protegidos</button>
 <table class="table-bordered table-hover table-data-custom" style="display:none"   id="kt_table_clients">
 <thead>
 <tr>

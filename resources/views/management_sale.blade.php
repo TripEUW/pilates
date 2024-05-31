@@ -10,7 +10,6 @@
 @section('styles_optional_vendors')
 
 @endsection
-
 @section('content_breadcrumbs') 
 {!! PilatesHelper::getBreadCrumbs([
 ["route"=>"#","name"=>"Gestión de Tablas"],

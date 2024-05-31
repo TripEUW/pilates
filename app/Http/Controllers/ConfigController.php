@@ -10,6 +10,7 @@ use App\Http\Requests\ValidationPathBackupsdb;
 use App\Http\Requests\ValidationPathDocumentaryManager;
 use App\Models\Configuration;
 use App\Models\NoWorkDay;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -158,7 +159,6 @@ class ConfigController extends Controller
     }
 
     public function checkStatusHideAttr(Request $request){
-
         return response()->json(['response' => "Ahora pude ver los campos protegidos", 'status' => true]);
 
     }

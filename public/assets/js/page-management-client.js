@@ -1,165 +1,158 @@
 "use strict";
+function cutUrlAfterFirstRoute(url) {
+    const parts = url.split('/');
+    if (parts.length > 2) {
+        return parts.slice(0, 3).join('/');
+    }
+    return url;
+}
 
+let url = location.href;
+// console.log(cutUrlAfterFirstRoute(url), "cutter"); 
 var tableClients = null;
 var KTDatatablesDataSourceAjaxServer = (function () {
     var initTableClients = function () {
-        try {
-            // begin first table
-            tableClients = $("#kt_table_clients").DataTable({
-                lengthMenu: [
-                    [10, 25, 50, 100, -1],
-                    [10, 25, 50, 100, "Todo"],
-                ],
-                dom: '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
-                pageLength: 25,
-                responsive: true,
-                colReorder: true,
-                /* scrollY: false,
+        // begin first table
+        tableClients = $("#kt_table_clients").DataTable({
+            lengthMenu: [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, "Todo"],
+            ],
+            dom: '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
+            pageLength: 25,
+            responsive: true,
+            colReorder: true,
+            /* scrollY: false,
 			scrollX: true,*/
-                searchDelay: 500,
-                processing: true,
-                serverSide: true,
-                serverMethod: "post",
-                language: {
-                    processing: `Procesando el contenido <br><br> <button class="btn btn-success btn-icon btn-circle kt-spinner kt-spinner--center kt-spinner--sm kt-spinner--light"></button>`,
-                    searchPlaceholder: "",
-                    search: "Buscar cliente",
-                    lengthMenu: "Mostrar _MENU_  por página",
-                    zeroRecords: "Nada encontrado",
-                    info: "Página _PAGE_ de _PAGES_  (filtrado de _MAX_ registros totales)",
-                    infoEmpty: "No hay registros para mostrar.",
-                    infoFiltered: "",
-                },
-                ajax: {
-                    url: "management_client/dataTable",
-                    dataType: "json",
-                    type: "POST",
-                    data: { _token: $("#token_ajax").val() },
-                },
+            searchDelay: 500,
+            processing: true,
+            serverSide: true,
+            serverMethod: "post",
+            language: {
+                processing: `Procesando el contenido <br><br> <button class="btn btn-success btn-icon btn-circle kt-spinner kt-spinner--center kt-spinner--sm kt-spinner--light"></button>`,
+                searchPlaceholder: "",
+                search: "Buscar cliente",
+                lengthMenu: "Mostrar _MENU_  por página",
+                zeroRecords: "Nada encontrado",
+                info: "Página _PAGE_ de _PAGES_  (filtrado de _MAX_ registros totales)",
+                infoEmpty: "No hay registros para mostrar.",
+                infoFiltered: "",
+            },
+            ajax: {
+                url: "management_client/dataTable",
+                dataType: "json",
+                type: "POST",
+                data: { _token: $("#token_ajax").val() },
+            },
 
-                columns: [
-                    { data: "id", responsivePriority: 1 },
-                    { data: "last_name", responsivePriority: 2 },
-                    { data: "name", responsivePriority: 3 },
-                    { data: "suscription" },
-                    { data: "tel" },
-                    { data: "level" },
-                    { data: "sex" },
-                    { data: "email" },
-                    { data: "status" },
-                    { data: "address" },
-                    { data: "dni" },
-                    { data: "date_of_birth" },
-                    { data: "date_register" },
-                    { data: "observation" },
-                    { data: "sessions_machine" },
-                    { data: "sessions_floor" },
-                    { data: "sessions_individual" },
-                    { data: "actions", responsivePriority: -1 },
-                ],
-                columnDefs: [
-                    {
-                        targets: 0,
-                        searchable: false,
-                        orderable: false,
-                        className: "dt-body-center",
-                        render: function (data, type, full, meta) {
-                            return (
-                                ` <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid">
+            columns: [
+                { data: "id", responsivePriority: 1 },
+                { data: "last_name", responsivePriority: 2 },
+                { data: "name", responsivePriority: 3 },
+                { data: "suscription" },
+                { data: "tel" },
+                { data: "level" },
+                { data: "sex" },
+                { data: "email" },
+                { data: "status" },
+                { data: "address" },
+                { data: "dni" },
+                { data: "date_of_birth" },
+                { data: "date_register" },
+                { data: "observation" },
+                { data: "sessions_machine" },
+                { data: "sessions_floor" },
+                { data: "sessions_individual" },
+                { data: "actions", responsivePriority: -1 },
+            ],
+            columnDefs: [
+                {
+                    targets: 0,
+                    searchable: false,
+                    orderable: false,
+                    className: "dt-body-center",
+                    render: function (data, type, full, meta) {
+                        return (
+                            ` <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid">
                         <input type="checkbox" name="id[]" value="` +
-                                $("<div/>").text(data).html() +
-                                `" >
+                            $("<div/>").text(data).html() +
+                            `" >
                         <span></span>
                     </label>`
-                            );
-                        },
+                        );
                     },
-                    {
-                        targets: 4,
-                        visible: false,
+                },
+                {
+                    targets: 4,
+                    visible: false,
+                },
+                {
+                    targets: 9,
+                    orderable: true,
+                    visible: false,
+                    class: "text-center",
+                    render: function (data, type, full, meta) {
+                        return (
+                            '<a href="#" onclick="showInfoCellInModal(`Dirección`,`' +
+                            (data
+                                ? data
+                                : "Ningún dato para mostrar en esta celda") +
+                            '`)" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true"><i class="flaticon-arrows"></i></a>'
+                        );
                     },
-                    {
-                        targets: 9,
-                        orderable: true,
-                        visible: false,
-                        class: "text-center",
-                        render: function (data, type, full, meta) {
-                            return (
-                                '<a href="#" onclick="showInfoCellInModal(`Dirección`,`' +
-                                (data
-                                    ? data
-                                    : "Ningún dato para mostrar en esta celda") +
-                                '`)" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true"><i class="flaticon-arrows"></i></a>'
-                            );
-                        },
+                },
+                {
+                    targets: 10,
+                    visible: false,
+                },
+                {
+                    targets: 13,
+                    orderable: true,
+                    class: "text-center",
+                    render: function (data, type, full, meta) {
+                        return (
+                            '<a href="#" onclick="showInfoCellInModal(`Observaciones`,`' +
+                            (data
+                                ? data
+                                : "Ningún dato para mostrar en esta celda") +
+                            '`)" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true"><i class="flaticon-arrows"></i></a>'
+                        );
                     },
-                    {
-                        targets: 10,
-                        visible: false,
-                    },
-                    {
-                        targets: 13,
-                        orderable: true,
-                        class: "text-center",
-                        render: function (data, type, full, meta) {
-                            return (
-                                '<a href="#" onclick="showInfoCellInModal(`Observaciones`,`' +
-                                (data
-                                    ? data
-                                    : "Ningún dato para mostrar en esta celda") +
-                                '`)" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true"><i class="flaticon-arrows"></i></a>'
-                            );
-                        },
-                    },
-                    {
-                        targets: -1,
-                        title: "Actions",
-                        orderable: false,
-                        render: function (data, type, full, meta) {
-                            return (
-                                `
+                },
+                {
+                    targets: -1,
+                    title: "Actions",
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                        return (
+                            `
                         <span class="dropdown">
                             <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true">
                               <i class="la la-ellipsis-h"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="#" onclick='editClient(` +
-                                JSON.stringify(data) +
-                                `)'><i class="flaticon-edit color-green"></i> Editar cliente</a>
+                            JSON.stringify(data) +
+                            `)'><i class="flaticon-edit color-green"></i> Editar cliente</a>
                                 <a class="dropdown-item" href="#" onclick="deleteClient(` +
-                                data.id +
-                                `)"><i class="flaticon-delete color-green"></i> Eliminar cliente</a>
+                            data.id +
+                            `)"><i class="flaticon-delete color-green"></i> Eliminar cliente</a>
                                 <a class="dropdown-item" href="#" onclick="addDocumentClient(` +
-                                data.id +
-                                `)"><i class="flaticon-file-1 color-green"></i> Añadir documento</a>
+                            data.id +
+                            `)"><i class="flaticon-file-1 color-green"></i> Añadir documento</a>
 
                             </div>
                         </span>
                         `
-                            );
-                        },
+                        );
                     },
-                ],
-                drawCallback: function (settings) {
-                    $("#kt_table_clients").show();
                 },
-                order: [[0, "desc"]],
-            });
-        } catch (e) {
-            console.log("error in this file page management")
-            if (
-                e instanceof TypeError &&
-                e.message.includes("$(...).DataTable is not a function") 
-            ) {
-                console.error(
-                    "Error: DataTable no está definido. Recargando la página..."
-                );
-                location.reload();
-            } else {
-                console.error("Error desconocido:", e);
-            }
-            location.reload();
-        }
+            ],
+            drawCallback: function (settings) {
+                $("#kt_table_clients").show();
+            },
+            order: [[0, "desc"]],
+        });
     };
 
     return {
@@ -462,8 +455,9 @@ var tablesForProtectedColumns = [
 ];
 function showHiddenFields(tableId, btn) {
     showOverlay();
+
     $.ajax({
-        url: baseUrl + "/administration_config/check_status_hide_attr",
+        url: "http://localhost:8000/administration_config/check_status_hide_attr",
         type: "POST",
         data: {
             _token: $("#token_ajax").val(),
@@ -493,7 +487,8 @@ function showHiddenFields(tableId, btn) {
                         $(btn).html("Ver campos protegidos");
                         table.colums_protected.forEach((columnNum) => {
                             var columShow = tableTmp.column(columnNum);
-                            columShow.visible(false);
+                            console.log(columShow);
+                            columShow.visible();
                         });
 
                         tableTmp.search("");
@@ -512,18 +507,8 @@ function showHiddenFields(tableId, btn) {
         },
         error: function (xhr, status, error) {
             hideOverlay();
-            // ! Error in url http://localhost:8000/management_client/dataTable
-            // console.log(JSON.stringify(xhr));
-
-            if (
-                e instanceof TypeError &&
-                e.message.includes("$(...).DataTable is not a function")
-            ) {
-                console.error(
-                    "Error: DataTable no está definido. Recargando la página..."
-                );
-            }
-            sendErrorsShow([error]);
+            console.log(JSON.stringify(xhr, status, error), "Error");
+            // sendErrorsShow([error]);
         },
     });
 }
@@ -544,14 +529,16 @@ protectedFieldsEdit.forEach((field) => {
 
 function showHiddenFieldsEdit(btn) {
     showOverlay();
+    location.
     $.ajax({
-        url: baseUrl + "/administration_config/check_status_hide_attr",
+        url:  "http://localhost:8000/administration_config/check_status_hide_attr",
         type: "POST",
         data: {
             _token: $("#token_ajax").val(),
         },
         success: function (res) {
             hideOverlay();
+            console.log(res.status);
             if (res.status == true) {
                 var status = false;
 
@@ -582,7 +569,7 @@ function showHiddenFieldsEdit(btn) {
         error: function (xhr, status, error) {
             hideOverlay();
             console.log(JSON.stringify(xhr));
-            sendErrorsShow([error]);
+            // sendErrorsShow([error]);
         },
     });
 }

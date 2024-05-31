@@ -26,6 +26,22 @@ class Employee extends Authenticatable
         'two_factor_expires_at'
     ];
     protected $fillable = [
+        'name',
+        'last_name',
+        'password',
+        'dni',
+        'tel',
+        'email',
+        'user_name',
+        'address',
+        'sex',
+        'color',
+        'date_of_birth',
+        'picture',
+        'observation',
+        'status',
+        'email_verified_at',
+        'id_rol',
         'two_factor_code',
         'two_factor_expires_at'
     ];
@@ -48,7 +64,7 @@ class Employee extends Authenticatable
     }
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new EmployeeResetPasswordNotification($token));
+        // $this->notify(new EmployeeResetPasswordNotification($token));
     }
 
 
