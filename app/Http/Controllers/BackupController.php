@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Log;
+
 class BackupController extends Controller
 {
     
@@ -59,6 +62,7 @@ class BackupController extends Controller
     public function destroy(ValidationDeleteBackup $request)
     {
         $config = Configuration::first();
+        // !ERROR in config
         $pathForSaveBackup = (isset($config->path_backups_day)) ? $config->path_backups_day : config('backups.default_path_backups_day');
         $pathForSaveBackupFiles = (isset($config->path_gestor)) ? $config->path_gestor : config('backups.default_path_gestor');
 
@@ -188,19 +192,23 @@ class BackupController extends Controller
 
     function createBackupFull(){
         //Artisan::queue('store:backup_daily',['force_backup'=>true]);
-        $response=$this->dispatch(
-           new BackupDataBaseDaily(true)
-        );
+        $response = Bus::dispatchNow(new BackupDataBaseDaily(true));
+
 
         if($response['status']=='2'){
+            Log::info('2');
             return redirect('administration_backup')->with('warning',$response['response']);
         }else if($response['status']=='3'){
+            Log::info('3');
             return redirect('administration_backup')->with('success',$response['response']);
         }else if($response['status']=='4'){
+            Log::info('4');
             return redirect('administration_backup')->with('danger',$response['response']);
         }
      
     }
+
+    
 
     function restoreBackupByFile(ValidationRestoreBackupFile $request){
 

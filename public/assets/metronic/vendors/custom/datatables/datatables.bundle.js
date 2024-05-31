@@ -4545,7 +4545,6 @@
 				wasInvalidated = true;
 			}
 		}
-	
 		return wasInvalidated;
 	}
 	

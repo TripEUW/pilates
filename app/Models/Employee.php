@@ -22,14 +22,49 @@ class Employee extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    protected $dates = [
+        'two_factor_expires_at'
+    ];
+    protected $fillable = [
+        'name',
+        'last_name',
+        'password',
+        'dni',
+        'tel',
+        'email',
+        'user_name',
+        'address',
+        'sex',
+        'color',
+        'date_of_birth',
+        'picture',
+        'observation',
+        'status',
+        'email_verified_at',
+        'id_rol',
+        'two_factor_code',
+        'two_factor_expires_at'
+    ];
     protected $hidden = [
         'remember_token'
     ];
-
+    public function generateTwoFactorCode()
+    {
+        $this->timestamps = false; //Dont update the 'updated_at' field yet
+        $this->two_factor_code = rand(100000, 999999);
+        $this->two_factor_expires_at = now()->addMinutes(10);
+        $this->save();
+    }
+    public function resetTwoFactorCode()
+    {
+        $this->timestamps = false; //Dont update the 'updated_at' field yet
+        $this->two_factor_code = null;
+        $this->two_factor_expires_at = null;
+        $this->save();
+    }
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new EmployeeResetPasswordNotification($token));
+        // $this->notify(new EmployeeResetPasswordNotification($token));
     }
 
 
@@ -113,7 +148,7 @@ class Employee extends Authenticatable
         } else {
             $search = $request->input('search.value');
             if ($limit == -1) {
-                $employees =  Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
+                $employees = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
                     ->where('employee.id', 'LIKE', "%{$search}%")
                     ->orWhere('employee.id_rol', 'LIKE', "%{$search}%")
                     ->orWhere('employee.name', 'LIKE', "%{$search}%")
@@ -146,7 +181,7 @@ class Employee extends Authenticatable
                     });
             } else {
 
-                $employees =  Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
+                $employees = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
                     ->where('employee.id', 'LIKE', "%{$search}%")
                     ->orWhere('employee.id_rol', 'LIKE', "%{$search}%")
                     ->orWhere('employee.name', 'LIKE', "%{$search}%")
@@ -201,9 +236,9 @@ class Employee extends Authenticatable
 
 
         $result = [
-            'iTotalRecords'        =>  $totalData,
+            'iTotalRecords' => $totalData,
             'iTotalDisplayRecords' => $totalFiltered,
-            'aaData'               =>  $employees
+            'aaData' => $employees
         ];
 
         return $result;
@@ -238,7 +273,7 @@ class Employee extends Authenticatable
     }
     public function getDateOfBirthAttribute($date)
     {
-    return Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
+        return Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
     }
 
     public function getEmployeeSelectedDataTable(Request $request)
@@ -306,7 +341,7 @@ class Employee extends Authenticatable
         } else {
             $search = $request->input('search.value');
             if ($limit == -1) {
-                $employees =  Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
+                $employees = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
                     ->where('employee.id', 'LIKE', "%{$search}%")
                     ->orWhere('employee.id_rol', 'LIKE', "%{$search}%")
                     ->orWhere('employee.name', 'LIKE', "%{$search}%")
@@ -337,7 +372,7 @@ class Employee extends Authenticatable
                     });
             } else {
 
-                $employees =  Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
+                $employees = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
                     ->where('employee.id', 'LIKE', "%{$search}%")
                     ->orWhere('employee.id_rol', 'LIKE', "%{$search}%")
                     ->orWhere('employee.name', 'LIKE', "%{$search}%")
@@ -390,169 +425,169 @@ class Employee extends Authenticatable
 
 
         $result = [
-            'iTotalRecords'        =>  $totalData,
+            'iTotalRecords' => $totalData,
             'iTotalDisplayRecords' => $totalFiltered,
-            'aaData'               =>  $employees
+            'aaData' => $employees
         ];
 
         return $result;
     }
 
-   public function getEmployeeSelectedDataTableDashboard(Request $request)
-   {
+    public function getEmployeeSelectedDataTableDashboard(Request $request)
+    {
 
-       $columns = array(
-           0 => 'employee.id',
-           1 => 'employee.name',
-           2 => 'rol.name',
-           3 => 'employee.status',
-           4 => 'status_assign',
-           5 => 'n_groups'
-       );
+        $columns = array(
+            0 => 'employee.id',
+            1 => 'employee.name',
+            2 => 'rol.name',
+            3 => 'employee.status',
+            4 => 'status_assign',
+            5 => 'n_groups'
+        );
 
-       $totalData = Employee::count();
-       $totalFiltered = $totalData;
+        $totalData = Employee::count();
+        $totalFiltered = $totalData;
 
-       $limit = $request->input('length');
-       $start = $request->input('start');
-       $order = $columns[$request->input('order.0.column')];
-       $dir = $request->input('order.0.dir');
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
 
-       $employees = [];
-       if (empty($request->input('search.value'))) {
+        $employees = [];
+        if (empty($request->input('search.value'))) {
 
-           if ($limit == -1) {
-               $employees = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
-                   ->orderBy($order, $dir)
-                   ->get([
-                       'employee.id',
-                       'employee.name',
-                       'rol.name as rol_name',
-                       DB::raw('CONCAT(employee.name," ",employee.last_name) as name'),
-                       'employee.status',
-                       'employee.id as status_assign',
-                       DB::raw('(SELECT COUNT(id_employee) FROM `group` WHERE `group`.`id_employee`=employee.id) as n_groups'),
-                       'employee.id as actions'
-                   ])->filter(function ($employee) {
-                       $employee->status_assign = $employee->n_groups > 0 ? 'Asignado' : 'Sin grupo';
-                       $employee->status = $employee->status == 'enable' ? 'Activo' : 'Inactivo';
-                       $employee->actions = ['id' => $employee->id, 'name' => $employee->name];
-                       return $employee;
-                   });
-           } else {
-               $employees = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')->offset($start)
-                   ->limit($limit)
-                   ->orderBy($order, $dir)
-                   ->get([
-                       'employee.id',
-                       'employee.name',
-                       'rol.name as rol_name',
-                       DB::raw('CONCAT(employee.name," ",employee.last_name) as name'),
-                       'employee.status',
-                       'employee.id as status_assign',
-                       DB::raw('(SELECT COUNT(id_employee) FROM `group` WHERE `group`.`id_employee`=employee.id) as n_groups'),
-                       'employee.id as actions'
-                   ])->filter(function ($employee) {
-                       $employee->status_assign = $employee->n_groups > 0 ? 'Asignado' : 'Sin grupo';
-                       $employee->status = $employee->status == 'enable' ? 'Activo' : 'Inactivo';
-                       $employee->actions = ['id' => $employee->id, 'name' => $employee->name];
-                       return $employee;
-                   });
-           }
-       } else {
-           $search = $request->input('search.value');
-           if ($limit == -1) {
-               $employees =  Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
-                   ->where('employee.id', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.id_rol', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.name', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.last_name', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.email', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.sex', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.date_of_birth', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.tel', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.address', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.observation', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.status', 'LIKE', "%{$search}%")
-                   ->orWhere('rol.name', 'LIKE', "%{$search}%")
-                   ->orderBy($order, $dir)
-                   ->get([
-                       'employee.id',
-                       'employee.name',
-                       'rol.name as rol_name',
-                       DB::raw('CONCAT(employee.name," ",employee.last_name) as name'),
-                       'employee.status',
-                       'employee.id as status_assign',
-                       DB::raw('(SELECT COUNT(id_employee) FROM `group` WHERE `group`.`id_employee`=employee.id) as n_groups'),
-                       'employee.id as actions'
-                   ])->filter(function ($employee) {
-                       $employee->status_assign = $employee->n_groups > 0 ? 'Asignado' : 'Sin grupo';
-                       $employee->status = $employee->status == 'enable' ? 'Activo' : 'Inactivo';
-                       $employee->actions = ['id' => $employee->id, 'name' => $employee->name];
-                       return $employee;
-                   });
-           } else {
+            if ($limit == -1) {
+                $employees = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
+                    ->orderBy($order, $dir)
+                    ->get([
+                        'employee.id',
+                        'employee.name',
+                        'rol.name as rol_name',
+                        DB::raw('CONCAT(employee.name," ",employee.last_name) as name'),
+                        'employee.status',
+                        'employee.id as status_assign',
+                        DB::raw('(SELECT COUNT(id_employee) FROM `group` WHERE `group`.`id_employee`=employee.id) as n_groups'),
+                        'employee.id as actions'
+                    ])->filter(function ($employee) {
+                        $employee->status_assign = $employee->n_groups > 0 ? 'Asignado' : 'Sin grupo';
+                        $employee->status = $employee->status == 'enable' ? 'Activo' : 'Inactivo';
+                        $employee->actions = ['id' => $employee->id, 'name' => $employee->name];
+                        return $employee;
+                    });
+            } else {
+                $employees = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')->offset($start)
+                    ->limit($limit)
+                    ->orderBy($order, $dir)
+                    ->get([
+                        'employee.id',
+                        'employee.name',
+                        'rol.name as rol_name',
+                        DB::raw('CONCAT(employee.name," ",employee.last_name) as name'),
+                        'employee.status',
+                        'employee.id as status_assign',
+                        DB::raw('(SELECT COUNT(id_employee) FROM `group` WHERE `group`.`id_employee`=employee.id) as n_groups'),
+                        'employee.id as actions'
+                    ])->filter(function ($employee) {
+                        $employee->status_assign = $employee->n_groups > 0 ? 'Asignado' : 'Sin grupo';
+                        $employee->status = $employee->status == 'enable' ? 'Activo' : 'Inactivo';
+                        $employee->actions = ['id' => $employee->id, 'name' => $employee->name];
+                        return $employee;
+                    });
+            }
+        } else {
+            $search = $request->input('search.value');
+            if ($limit == -1) {
+                $employees = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
+                    ->where('employee.id', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.id_rol', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.name', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.last_name', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.email', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.sex', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.date_of_birth', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.tel', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.address', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.observation', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.status', 'LIKE', "%{$search}%")
+                    ->orWhere('rol.name', 'LIKE', "%{$search}%")
+                    ->orderBy($order, $dir)
+                    ->get([
+                        'employee.id',
+                        'employee.name',
+                        'rol.name as rol_name',
+                        DB::raw('CONCAT(employee.name," ",employee.last_name) as name'),
+                        'employee.status',
+                        'employee.id as status_assign',
+                        DB::raw('(SELECT COUNT(id_employee) FROM `group` WHERE `group`.`id_employee`=employee.id) as n_groups'),
+                        'employee.id as actions'
+                    ])->filter(function ($employee) {
+                        $employee->status_assign = $employee->n_groups > 0 ? 'Asignado' : 'Sin grupo';
+                        $employee->status = $employee->status == 'enable' ? 'Activo' : 'Inactivo';
+                        $employee->actions = ['id' => $employee->id, 'name' => $employee->name];
+                        return $employee;
+                    });
+            } else {
 
-               $employees =  Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
-                   ->where('employee.id', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.id_rol', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.name', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.last_name', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.email', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.sex', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.date_of_birth', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.tel', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.address', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.observation', 'LIKE', "%{$search}%")
-                   ->orWhere('employee.status', 'LIKE', "%{$search}%")
-                   ->orWhere('rol.name', 'LIKE', "%{$search}%")
-                   ->offset($start)
-                   ->limit($limit)
-                   ->orderBy($order, $dir)
-                   ->get([
-                       'employee.id',
-                       'employee.name',
-                       'rol.name as rol_name',
-                       DB::raw('CONCAT(employee.name," ",employee.last_name) as name'),
-                       'employee.status',
-                       'employee.id as status_assign',
-                       DB::raw('(SELECT COUNT(id_employee) FROM `group` WHERE `group`.`id_employee`=employee.id) as n_groups'),
-                       'employee.id as actions'
-                   ])->filter(function ($employee) {
-                       $employee->status_assign = $employee->n_groups > 0 ? 'Asignado' : 'Sin grupo';
-                       $employee->status = $employee->status == 'enable' ? 'Activo' : 'Inactivo';
-                       $employee->actions = ['id' => $employee->id, 'name' => $employee->name];
-                       return $employee;
-                   });
-           }
+                $employees = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
+                    ->where('employee.id', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.id_rol', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.name', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.last_name', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.email', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.sex', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.date_of_birth', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.tel', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.address', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.observation', 'LIKE', "%{$search}%")
+                    ->orWhere('employee.status', 'LIKE', "%{$search}%")
+                    ->orWhere('rol.name', 'LIKE', "%{$search}%")
+                    ->offset($start)
+                    ->limit($limit)
+                    ->orderBy($order, $dir)
+                    ->get([
+                        'employee.id',
+                        'employee.name',
+                        'rol.name as rol_name',
+                        DB::raw('CONCAT(employee.name," ",employee.last_name) as name'),
+                        'employee.status',
+                        'employee.id as status_assign',
+                        DB::raw('(SELECT COUNT(id_employee) FROM `group` WHERE `group`.`id_employee`=employee.id) as n_groups'),
+                        'employee.id as actions'
+                    ])->filter(function ($employee) {
+                        $employee->status_assign = $employee->n_groups > 0 ? 'Asignado' : 'Sin grupo';
+                        $employee->status = $employee->status == 'enable' ? 'Activo' : 'Inactivo';
+                        $employee->actions = ['id' => $employee->id, 'name' => $employee->name];
+                        return $employee;
+                    });
+            }
 
-           $totalFiltered = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
-               ->where('employee.id', 'LIKE', "%{$search}%")
-               ->orWhere('employee.id_rol', 'LIKE', "%{$search}%")
-               ->orWhere('employee.name', 'LIKE', "%{$search}%")
-               ->orWhere('employee.last_name', 'LIKE', "%{$search}%")
-               ->orWhere('employee.email', 'LIKE', "%{$search}%")
-               ->orWhere('employee.sex', 'LIKE', "%{$search}%")
-               ->orWhere('employee.date_of_birth', 'LIKE', "%{$search}%")
-               ->orWhere('employee.tel', 'LIKE', "%{$search}%")
-               ->orWhere('employee.address', 'LIKE', "%{$search}%")
-               ->orWhere('employee.observation', 'LIKE', "%{$search}%")
-               ->orWhere('employee.status', 'LIKE', "%{$search}%")
-               ->orWhere('rol.name', 'LIKE', "%{$search}%")
-               ->count();
-       }
-
-
+            $totalFiltered = Employee::join('rol', 'employee.id_rol', '=', 'rol.id')
+                ->where('employee.id', 'LIKE', "%{$search}%")
+                ->orWhere('employee.id_rol', 'LIKE', "%{$search}%")
+                ->orWhere('employee.name', 'LIKE', "%{$search}%")
+                ->orWhere('employee.last_name', 'LIKE', "%{$search}%")
+                ->orWhere('employee.email', 'LIKE', "%{$search}%")
+                ->orWhere('employee.sex', 'LIKE', "%{$search}%")
+                ->orWhere('employee.date_of_birth', 'LIKE', "%{$search}%")
+                ->orWhere('employee.tel', 'LIKE', "%{$search}%")
+                ->orWhere('employee.address', 'LIKE', "%{$search}%")
+                ->orWhere('employee.observation', 'LIKE', "%{$search}%")
+                ->orWhere('employee.status', 'LIKE', "%{$search}%")
+                ->orWhere('rol.name', 'LIKE', "%{$search}%")
+                ->count();
+        }
 
 
-       $result = [
-           'iTotalRecords'        =>  $totalData,
-           'iTotalDisplayRecords' => $totalFiltered,
-           'aaData'               =>  $employees
-       ];
 
-       return $result;
-   }
+
+        $result = [
+            'iTotalRecords' => $totalData,
+            'iTotalDisplayRecords' => $totalFiltered,
+            'aaData' => $employees
+        ];
+
+        return $result;
+    }
 
 
     public function getEmployeeScheduleDataTable(Request $request)
@@ -575,17 +610,17 @@ class Employee extends Authenticatable
 
             if ($limit == -1) {
                 $employees = Employee::get([
-                        '*'
-                    ])->map(function ($client) use($request) {
-                        return $this->analizeMapEmployeeSheduleDataTable($client,$request);
-                    })->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
+                    '*'
+                ])->map(function ($client) use ($request) {
+                    return $this->analizeMapEmployeeSheduleDataTable($client, $request);
+                })->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
             } else {
                 $employees = Employee::get([
-                        '*'
-                    ])->map(function ($client) use($request){
-                        return  $this->analizeMapEmployeeSheduleDataTable($client,$request);
-                    })
-                    
+                    '*'
+                ])->map(function ($client) use ($request) {
+                    return $this->analizeMapEmployeeSheduleDataTable($client, $request);
+                })
+
                     ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)
                     ->skip($start)->take($limit)
                     ->values()->all();
@@ -593,49 +628,49 @@ class Employee extends Authenticatable
         } else {
             $search = $request->input('search.value');
             if ($limit == -1) {
-                $employees =  Employee::get([
-                        '*'
-                    ])->map(function ($client) use($request){
-                        return   $this->analizeMapEmployeeSheduleDataTable($client,$request);
-                    })
-                    ->filter(function ($client) use ($search, $columns,$request) {
+                $employees = Employee::get([
+                    '*'
+                ])->map(function ($client) use ($request) {
+                    return $this->analizeMapEmployeeSheduleDataTable($client, $request);
+                })
+                    ->filter(function ($client) use ($search, $columns, $request) {
                         return $this->filterSearchEmployeeDataTable($client, $search, $columns, $request);
                     })
                     ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
             } else {
 
-                $employees =  Employee::get([
-                        '*'
-                    ])->map(function ($client) use($request) {
-                        return $this->analizeMapEmployeeSheduleDataTable($client,$request);
-                    })
-                    ->filter(function ($client) use ($search, $columns,$request) {
+                $employees = Employee::get([
+                    '*'
+                ])->map(function ($client) use ($request) {
+                    return $this->analizeMapEmployeeSheduleDataTable($client, $request);
+                })
+                    ->filter(function ($client) use ($search, $columns, $request) {
                         return $this->filterSearchEmployeeDataTable($client, $search, $columns, $request);
                     })
-                   
+
                     ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)
                     ->skip($start)->take($limit)
                     ->values()->all();
             }
 
             $totalFiltered =
-            Employee::get([
-                '*'
-            ])->map(function ($client) use($request) {
-                return $this->analizeMapEmployeeSheduleDataTable($client,$request);
-            })
-               ->filter(function ($client) use ($search, $columns,$request) {
-                return $this->filterSearchEmployeeDataTable($client, $search, $columns, $request);
+                Employee::get([
+                    '*'
+                ])->map(function ($client) use ($request) {
+                    return $this->analizeMapEmployeeSheduleDataTable($client, $request);
                 })
-                ->count();
+                    ->filter(function ($client) use ($search, $columns, $request) {
+                        return $this->filterSearchEmployeeDataTable($client, $search, $columns, $request);
+                    })
+                    ->count();
         }
 
 
 
         $result = [
-            'iTotalRecords'        =>  $totalData,
+            'iTotalRecords' => $totalData,
             'iTotalDisplayRecords' => $totalFiltered,
-            'aaData'               =>  $employees
+            'aaData' => $employees
         ];
 
         return $result;
@@ -657,117 +692,117 @@ class Employee extends Authenticatable
         $dir = ($dir == 'desc') ? true : false;
 
         $employees = [];
-        if(
+        if (
             !empty($request->input('employee_selected'))
             &&
             !empty($request->input('date_start'))
             &&
             !empty($request->input('date_end'))
-        
-        ){
-        
-        $totalData = count(Employee::where('id',"!=",$request->employee_selected)->get([
-            '*'
-        ])->filter(function ($client) use($request) {
-            return $this->analizeMapEmployeeSheduleDataTableSelected($client,$request);
-        })->values()->all());
-        $totalFiltered = $totalData;
 
-        if (empty($request->input('search.value'))) {
+        ) {
 
-            if ($limit == -1) {
-                $employees = Employee::where('id',"!=",$request->employee_selected)->get([
-                        '*'
-                    ])->filter(function ($client) use($request) {
-                        return $this->analizeMapEmployeeSheduleDataTableSelected($client,$request);
-                    })->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
-            } else {
-                $employees = Employee::where('id',"!=",$request->employee_selected)->get([
-                        '*'
-                    ])->filter(function ($client) use($request){
-                        return  $this->analizeMapEmployeeSheduleDataTableSelected($client,$request);
-                    })
-                    
-                    ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)
-                    ->skip($start)->take($limit)
-                    ->values()->all();
-            }
-        } else {
-            $search = $request->input('search.value');
-            if ($limit == -1) {
-                $employees =  Employee::where('id',"!=",$request->employee_selected)->get([
-                        '*'
-                    ])->filter(function ($client) use($request){
-                        return   $this->analizeMapEmployeeSheduleDataTableSelected($client,$request);
-                    })
-                    ->filter(function ($client) use ($search, $columns,$request) {
-                        return $this->filterSearchEmployeeDataTable($client, $search, $columns, $request);
-                    })
-                    ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
-            } else {
-
-                $employees =  Employee::where('id',"!=",$request->employee_selected)->get([
-                        '*'
-                    ])->filter(function ($client) use($request) {
-                        return $this->analizeMapEmployeeSheduleDataTableSelected($client,$request);
-                    })
-                    ->filter(function ($client) use ($search, $columns,$request) {
-                        return $this->filterSearchEmployeeDataTable($client, $search, $columns, $request);
-                    })
-                   
-                    ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)
-                    ->skip($start)->take($limit)
-                    ->values()->all();
-            }
-
-            $totalFiltered =
-            Employee::where('id',"!=",$request->employee_selected)->get([
+            $totalData = count(Employee::where('id', "!=", $request->employee_selected)->get([
                 '*'
-            ])->filter(function ($client) use($request) {
-                return $this->analizeMapEmployeeSheduleDataTableSelected($client,$request);
-            })
-               ->filter(function ($client) use ($search, $columns,$request) {
-                return $this->filterSearchEmployeeDataTable($client, $search, $columns, $request);
-                })
-                ->count();
-        }
+            ])->filter(function ($client) use ($request) {
+                return $this->analizeMapEmployeeSheduleDataTableSelected($client, $request);
+            })->values()->all());
+            $totalFiltered = $totalData;
 
-    }
+            if (empty($request->input('search.value'))) {
+
+                if ($limit == -1) {
+                    $employees = Employee::where('id', "!=", $request->employee_selected)->get([
+                        '*'
+                    ])->filter(function ($client) use ($request) {
+                        return $this->analizeMapEmployeeSheduleDataTableSelected($client, $request);
+                    })->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
+                } else {
+                    $employees = Employee::where('id', "!=", $request->employee_selected)->get([
+                        '*'
+                    ])->filter(function ($client) use ($request) {
+                        return $this->analizeMapEmployeeSheduleDataTableSelected($client, $request);
+                    })
+
+                        ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)
+                        ->skip($start)->take($limit)
+                        ->values()->all();
+                }
+            } else {
+                $search = $request->input('search.value');
+                if ($limit == -1) {
+                    $employees = Employee::where('id', "!=", $request->employee_selected)->get([
+                        '*'
+                    ])->filter(function ($client) use ($request) {
+                        return $this->analizeMapEmployeeSheduleDataTableSelected($client, $request);
+                    })
+                        ->filter(function ($client) use ($search, $columns, $request) {
+                            return $this->filterSearchEmployeeDataTable($client, $search, $columns, $request);
+                        })
+                        ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)->values()->all();
+                } else {
+
+                    $employees = Employee::where('id', "!=", $request->employee_selected)->get([
+                        '*'
+                    ])->filter(function ($client) use ($request) {
+                        return $this->analizeMapEmployeeSheduleDataTableSelected($client, $request);
+                    })
+                        ->filter(function ($client) use ($search, $columns, $request) {
+                            return $this->filterSearchEmployeeDataTable($client, $search, $columns, $request);
+                        })
+
+                        ->sortBy($order, SORT_NATURAL | SORT_FLAG_CASE, $dir)
+                        ->skip($start)->take($limit)
+                        ->values()->all();
+                }
+
+                $totalFiltered =
+                    Employee::where('id', "!=", $request->employee_selected)->get([
+                        '*'
+                    ])->filter(function ($client) use ($request) {
+                        return $this->analizeMapEmployeeSheduleDataTableSelected($client, $request);
+                    })
+                        ->filter(function ($client) use ($search, $columns, $request) {
+                            return $this->filterSearchEmployeeDataTable($client, $search, $columns, $request);
+                        })
+                        ->count();
+            }
+
+        }
 
 
 
         $result = [
-            'iTotalRecords'        =>  $totalData,
+            'iTotalRecords' => $totalData,
             'iTotalDisplayRecords' => $totalFiltered,
-            'aaData'               =>  $employees
+            'aaData' => $employees
         ];
 
         return $result;
     }
 
-    
-    function analizeMapEmployeeSheduleDataTable($employee,$request)
+
+    function analizeMapEmployeeSheduleDataTable($employee, $request)
     {
         $employee->name = "$employee->name $employee->last_name";
-        $employee['count_schedule']=count(Schedule::where('id_employee',$employee->id)->where('date_start', '>=', $request->date_start)->where('date_end', '<=', $request->date_end)->get());
+        $employee['count_schedule'] = count(Schedule::where('id_employee', $employee->id)->where('date_start', '>=', $request->date_start)->where('date_end', '<=', $request->date_end)->get());
         $employee["employee"] = json_decode($employee);
-    
+
         return $employee;
     }
 
-    function analizeMapEmployeeSheduleDataTableSelected($employee,$request)
+    function analizeMapEmployeeSheduleDataTableSelected($employee, $request)
     {
-        $count=count(Schedule::where('id_employee',$employee->id)->where('date_start', '>=', $request->date_start)->where('date_end', '<=', $request->date_end)->get());
-        if($count<=0){
+        $count = count(Schedule::where('id_employee', $employee->id)->where('date_start', '>=', $request->date_start)->where('date_end', '<=', $request->date_end)->get());
+        if ($count <= 0) {
             $employee->name = "$employee->name $employee->last_name";
-            $employee['count_schedule']=$count;
+            $employee['count_schedule'] = $count;
             $employee["employee"] = json_decode($employee);
             $employee["actions"] = json_decode($employee);
             return $employee;
-        }else{
+        } else {
             return false;
         }
-      
+
     }
 
     function filterSearchEmployeeDataTable($employee, $search, $columns, $request)

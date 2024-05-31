@@ -10,7 +10,7 @@ use App\Models\Rol;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
@@ -28,10 +28,22 @@ class EmployeeController extends Controller
 
     public function store(ValidationEmployee $request)
     {
-        if ($request->has('password'))
+        if ($request->has('password')){
             $request->merge(['password' => bcrypt($request->password)]);
+        }
+        $id_rol = $request->input('id_rol');
 
+        // Comprueba si el rol existe
+        $rolExists = Rol::find($id_rol);
+        
+        if (!$rolExists) {
+            // Maneja el caso cuando el rol no existe
+            return response()->json(['error' => 'Rol no existe'], 400);
+        }
+
+        Log::info('Rol existe' . $rolExists . $id_rol);
         $employee = Employee::create(array_filter($request->except('password_confirmation', 'user_name', 'picture_upload')));
+        // $employee = Employee::create(array_filter($request->except('password_confirmation', 'user_name', 'picture_upload')));
         if ($request->hasFile('picture_upload')) {
 
             $ext = $request->file('picture_upload')->extension();

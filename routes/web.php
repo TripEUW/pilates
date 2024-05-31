@@ -15,9 +15,11 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('login', 'Security\LoginController@index')->name('login');
-Route::post('login', 'Security\LoginController@login')->name('login_in');
+Route::post('login', 'Security\LoginController@login')->name('login');
 Route::get('logout', 'Security\LoginController@logout')->name('logout');
-
+// 2fa routes
+Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.resend');
+Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
 //Auth::routes();
 //password reset routes
 Route::post('password/email', 'Auth\EmployeeForgotPasswordController@sendResetLinkEmail')->name('employee.password.email');
@@ -29,7 +31,7 @@ Route::get('password/reset/{token}', 'Auth\EmployeeResetPasswordController@showR
 Route::get('pdf/{id}/{id2}', 'PdfController@invoice');
 Route::get('print_php_info', 'PdfController@printPhp');
 
-Route::group(['prefix' => '/', 'middleware' => ['auth', 'enable_employee', 'rol.permission']], function () {
+Route::group(['prefix' => '/', 'middleware' => ['auth','twofactor', 'enable_employee', 'rol.permission']], function () {
 
 
 
@@ -123,8 +125,8 @@ Route::group(['prefix' => '/', 'middleware' => ['auth', 'enable_employee', 'rol.
     Route::delete('management_room_group/group_delete', 'RoomAndGroupController@destroyGroup')->name('management_room_group_group_delete');
 
     //clientes
-    Route::get('management_client', 'ClientController@index')->name('management_client');
     Route::post('management_client/insert', 'ClientController@store')->name('management_client_insert');
+    Route::get('management_client', 'ClientController@index')->name('management_client');
     Route::post('management_client/dataTable', 'ClientController@dataTable')->name('management_client_data_table');
     Route::delete('management_client/delete', 'ClientController@destroy')->name('management_client_delete');
     Route::put('management_client/update', 'ClientController@update')->name('management_client_update');
@@ -238,10 +240,14 @@ Route::group(['prefix' => '/', 'middleware' => ['auth', 'enable_employee', 'rol.
     //auditorias
     Route::get('audit', 'AuditController@index')->name('audit');
     Route::post('audit/downlaod', 'AuditController@download')->name('audit_download');//
-
-
+    Route::get('register', function () {
+        return redirect('/');
+    });
 
 
 
 
 });
+
+Auth::routes(['register' => false]);
+Route::get('/home', 'HomeController@index')->name('home');

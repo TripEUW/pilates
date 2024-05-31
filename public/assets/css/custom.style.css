@@ -167,9 +167,6 @@ table.dataTable thead .sorting_desc_disabled:after {
     font-size: 20px;
 }
 
-.white-space-pre-wrap {
-    white-space: pre;
-}
 
 .clean-icon-table {
     padding: 0px !important;

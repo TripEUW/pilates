@@ -54,10 +54,14 @@ var KTDatatablesDataSourceHtml = function() {
 	};
 
 }();
-
-jQuery(document).ready(function() {
-	KTDatatablesDataSourceHtml.init();
-});
+try {
+	jQuery(document).ready(function() {
+		KTDatatablesDataSourceHtml.init();
+	});
+	
+} catch (error) {
+	location.reload();
+}
 var actionValue=$("#form_delete_rol").attr('action');
 function deleteRol(idRol){
 

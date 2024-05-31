@@ -28,107 +28,112 @@ var dataForSessionMove={
 var DatatableDataGroupServer = function() {
 	var initTableGroup = function() {
 		// begin first table
-		tableGroup = $('#kt_table_groups').DataTable({
-            lengthMenu: [[10, 25, 50,100, -1], [10, 25, 50,100, "Todo"]],
-            dom: '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
-            pageLength: 25,
-            responsive: true,
-            colReorder: true,
-           /* scrollY: false,
-			scrollX: true,*/
-			searchDelay: 500,
-			processing: true,
-            serverSide: true,
-            serverMethod: 'post',
-            language: {
-                processing: `Procesando el contenido <br><br> <button class="btn btn-success btn-icon btn-circle kt-spinner kt-spinner--center kt-spinner--sm kt-spinner--light"></button>`,
-                searchPlaceholder: "",
-                search: "Buscar grupo",
-                lengthMenu: "Mostrar _MENU_  por página",
-                zeroRecords: "Nada encontrado",
-                info: "Página _PAGE_ de _PAGES_  (filtrado de _MAX_ registros totales)",
-                infoEmpty: "No hay registros para mostrar.",
-                infoFiltered: ""
-                  },
-            ajax: {
-                url:"dashboard/dataTable_group_calendar",
-                dataType: "json",
-                type: "POST",
-                data:function(data) {
-                  
-                        data.date_start = $('#date_start1').val();
-                        data.timepicker_start = $('#timepicker_start1').val();
-                        data.timepicker_end = $('#timepicker_end1').val();
-                        data._token = $('#token_ajax').val();
-                }
-            },
-
-      
-			columns: [
-                {data: 'id',responsivePriority: -2},
-                {data: 'name'},
-                {data: 'employee_name'},
-                {data: 'room_name'},
-                {data: 'type_room'},
-				{data: 'status',responsivePriority: -4},
-                {data: 'level',responsivePriority: -3},
-                {data: 'observation'},
-                {data: 'actions',responsivePriority: -1},
-                
-			],
-			columnDefs: [
-                {
-                    'targets': 0,
-                    "visible": false,
-                    'searchable': false,
-                    'orderable': false,
-                    'className': 'dt-body-center',
-                    'render': function (data, type, full, meta){
-
-                    return ` <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid">
-                        <input type="checkbox" name="id[]" value="`+$('<div/>').text(data).html()+`" >
-                        <span></span>
-                    </label>`;
+        try{
+            tableGroup = $('#kt_table_groups').DataTable({
+                lengthMenu: [[10, 25, 50,100, -1], [10, 25, 50,100, "Todo"]],
+                dom: '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
+                pageLength: 25,
+                responsive: true,
+                colReorder: true,
+               /* scrollY: false,
+                scrollX: true,*/
+                searchDelay: 500,
+                processing: true,
+                serverSide: true,
+                serverMethod: 'post',
+                language: {
+                    processing: `Procesando el contenido <br><br> <button class="btn btn-success btn-icon btn-circle kt-spinner kt-spinner--center kt-spinner--sm kt-spinner--light"></button>`,
+                    searchPlaceholder: "",
+                    search: "Buscar grupo",
+                    lengthMenu: "Mostrar _MENU_  por página",
+                    zeroRecords: "Nada encontrado",
+                    info: "Página _PAGE_ de _PAGES_  (filtrado de _MAX_ registros totales)",
+                    infoEmpty: "No hay registros para mostrar.",
+                    infoFiltered: ""
+                      },
+                ajax: {
+                    url:"dashboard/dataTable_group_calendar",
+                    dataType: "json",
+                    type: "POST",
+                    data:function(data) {
+                      
+                            data.date_start = $('#date_start1').val();
+                            data.timepicker_start = $('#timepicker_start1').val();
+                            data.timepicker_end = $('#timepicker_end1').val();
+                            data._token = $('#token_ajax').val();
                     }
                 },
-                {
-                    'targets': 5,
-                    'orderable': true,
-                    'class':'text-center',
-                    'render': function (data, type, full, meta){
-                        if(data=='Completo'){
-                            return `<div class="status-red p-1">`+data+`</div>`;
-                           }else if(data=='Vacío'){
-                            return `<div class="status-blue p-1">`+data+`</div>`;
-                            
-                           }else{
-                            return `<div class="status-green p-1">`+data+`</div>`;
-                           }
+    
+          
+                columns: [
+                    {data: 'id',responsivePriority: -2},
+                    {data: 'name'},
+                    {data: 'employee_name'},
+                    {data: 'room_name'},
+                    {data: 'type_room'},
+                    {data: 'status',responsivePriority: -4},
+                    {data: 'level',responsivePriority: -3},
+                    {data: 'observation'},
+                    {data: 'actions',responsivePriority: -1},
                     
+                ],
+                columnDefs: [
+                    {
+                        'targets': 0,
+                        "visible": false,
+                        'searchable': false,
+                        'orderable': false,
+                        'className': 'dt-body-center',
+                        'render': function (data, type, full, meta){
+    
+                        return ` <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid">
+                            <input type="checkbox" name="id[]" value="`+$('<div/>').text(data).html()+`" >
+                            <span></span>
+                        </label>`;
+                        }
+                    },
+                    {
+                        'targets': 5,
+                        'orderable': true,
+                        'class':'text-center',
+                        'render': function (data, type, full, meta){
+                            if(data=='Completo'){
+                                return `<div class="status-red p-1">`+data+`</div>`;
+                               }else if(data=='Vacío'){
+                                return `<div class="status-blue p-1">`+data+`</div>`;
+                                
+                               }else{
+                                return `<div class="status-green p-1">`+data+`</div>`;
+                               }
+                        
+                        }
+                    },
+                    {
+                        'targets': 7,
+                        'orderable': true,
+                        'class':'text-center',
+                        'render': function (data, type, full, meta){
+    
+                        return '<a href="#" onclick="showInfoCellInModal(`Observaciones`,`'+(data?data:'Ningún dato para mostrar en esta celda')+'`)" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true"><i class="flaticon-arrows"></i></a>';
+                        }
+                    },
+                    {
+                        targets: -1,
+                        title: 'Actions',
+                        orderable: false,
+                        render: function(data, type, full, meta) {
+                            return `<a href="#" onclick='setGroup(`+JSON.stringify(data)+`);' class="btn btn-brand btn-elevate btn-icon-sm p-1"><i class="la la-plus"></i>Elegir</a>`;
+    
+                        },
                     }
-                },
-                {
-                    'targets': 7,
-                    'orderable': true,
-                    'class':'text-center',
-                    'render': function (data, type, full, meta){
+                ],
+                order: [[0, 'desc']]
+                
+            });
 
-                    return '<a href="#" onclick="showInfoCellInModal(`Observaciones`,`'+(data?data:'Ningún dato para mostrar en esta celda')+'`)" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true"><i class="flaticon-arrows"></i></a>';
-                    }
-                },
-				{
-                    targets: -1,
-                    title: 'Actions',
-					orderable: false,
-					render: function(data, type, full, meta) {
-                        return `<a href="#" onclick='setGroup(`+JSON.stringify(data)+`);' class="btn btn-brand btn-elevate btn-icon-sm p-1"><i class="la la-plus"></i>Elegir</a>`;
-
-					},
-				}
-            ],
-            order: [[0, 'desc']]
-            
-        });
+        }catch(e){
+            location.reload();
+        }
         
         
 	};
@@ -1265,48 +1270,52 @@ var KTDatatablesDataSourceAjaxServerSessionsGroupMove = function() {
 
 
 
-
-jQuery(document).ready(function() {
- 
-DatatableDataGroupServer.init();
-KTDatatablesDataSourceAjaxServer.init();
-KTDatatablesDataSourceAjaxServerSessionsGroup.init();
-KTDatatablesDataSourceAjaxServerSessionsGroupMove.init();
-DatatableDataEmployeeSelectedServer.init();
-DatatableDataRoomSelectedServer.init();
-DatatableDataEmployeeSetGroup.init();
-DatatableDataGroupsSessions.init();
-DatatableDataGroupsSessions2.init();
-KTDatatablesDataSourceAjaxServerSessionsGroup2.init();
-
-    $('#select-all-sessions-move').on('click', function () {
-        var rows = tableSessionsGroupMove.rows({ 'search': 'applied' }).nodes();
-        $('input[type="checkbox"]', rows).prop('checked', this.checked);
-    });
-
-    tableSessionsGroupMove.on('draw', function () {
-        if ($('#select-all-sessions-move').is(":checked")) {
-            var rows = tableSessionsGroupMove.rows({ 'search': 'applied' }).nodes();
-            $('input[type="checkbox"]', rows).prop('checked', true);
-        }
-    });
-
-    ///
-
+try {
+    jQuery(document).ready(function() {
+     
+    DatatableDataGroupServer.init();
+    KTDatatablesDataSourceAjaxServer.init();
+    KTDatatablesDataSourceAjaxServerSessionsGroup.init();
+    KTDatatablesDataSourceAjaxServerSessionsGroupMove.init();
+    DatatableDataEmployeeSelectedServer.init();
+    DatatableDataRoomSelectedServer.init();
+    DatatableDataEmployeeSetGroup.init();
+    DatatableDataGroupsSessions.init();
+    DatatableDataGroupsSessions2.init();
+    KTDatatablesDataSourceAjaxServerSessionsGroup2.init();
     
-    $('#select-all-sessions-edit').on('click', function () {
-        var rows = tableSessionsGroup.rows({ 'search': 'applied' }).nodes();
-        $('input[type="checkbox"]', rows).prop('checked', this.checked);
-    });
-
-    tableSessionsGroup.on('draw', function () {
-        if ($('#select-all-sessions-edit').is(":checked")) {
+        $('#select-all-sessions-move').on('click', function () {
+            var rows = tableSessionsGroupMove.rows({ 'search': 'applied' }).nodes();
+            $('input[type="checkbox"]', rows).prop('checked', this.checked);
+        });
+    
+        tableSessionsGroupMove.on('draw', function () {
+            if ($('#select-all-sessions-move').is(":checked")) {
+                var rows = tableSessionsGroupMove.rows({ 'search': 'applied' }).nodes();
+                $('input[type="checkbox"]', rows).prop('checked', true);
+            }
+        });
+    
+        ///
+    
+        
+        $('#select-all-sessions-edit').on('click', function () {
             var rows = tableSessionsGroup.rows({ 'search': 'applied' }).nodes();
-            $('input[type="checkbox"]', rows).prop('checked', true);
-        }
+            $('input[type="checkbox"]', rows).prop('checked', this.checked);
+        });
+    
+        tableSessionsGroup.on('draw', function () {
+            if ($('#select-all-sessions-edit').is(":checked")) {
+                var rows = tableSessionsGroup.rows({ 'search': 'applied' }).nodes();
+                $('input[type="checkbox"]', rows).prop('checked', true);
+            }
+        });
+    
     });
-
-});
+    
+} catch (error) {
+    location.reload();
+}
 
 var hideAddGroup=true;
 function showModalAddGroup(mode=true){

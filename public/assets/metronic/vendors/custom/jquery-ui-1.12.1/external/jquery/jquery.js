@@ -10192,7 +10192,6 @@ xhrSupported = support.ajax = !!xhrSupported;
 if ( xhrSupported ) {
 
 	jQuery.ajaxTransport( function( options ) {
-
 		// Cross domain only allowed if supported through XMLHttpRequest
 		if ( !options.crossDomain || support.cors ) {
 
@@ -10212,7 +10211,6 @@ if ( xhrSupported ) {
 						options.username,
 						options.password
 					);
-
 					// Apply custom fields if provided
 					if ( options.xhrFields ) {
 						for ( i in options.xhrFields ) {

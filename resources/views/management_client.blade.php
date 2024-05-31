@@ -70,8 +70,7 @@ Agregar Cliente
 <div class="kt-portlet__body w-100 ">
 <div class="container">
 <!--begin: Datatable -->
-<button type="button" class="btn btn-sm btn-primary btn-brand--icon my-2" onclick="showHiddenFields('kt_table_clients',this)">Ver campos protegidos</button>
-
+<button id="btn-h-f" type="button" class="btn btn-sm btn-primary btn-brand--icon my-2" onclick="showHiddenFields('kt_table_clients',this)">Ver campos protegidos</button>
 <table class="table-bordered table-hover table-data-custom" style="display:none"   id="kt_table_clients">
 <thead>
 <tr>
@@ -156,7 +155,7 @@ Agregar Cliente
                         <div class="col-12 d-flex justify-content-center align-items-center">
         
                             <label for="img-change"  data-toggle="kt-tooltip" data-placement="top" title="" data-original-title="Clic para cambiar">
-                            <img id="img-change-profile" class="picture-profile" src="{{ asset("assets/images/user_default.png") }}"  />                 
+                            <img id="img-change-profile" class="" src="{{ asset("assets/images/user_default.png") }}"  />                 
                             </label>
                                             
                             <input type='file' id="img-change" style="display:none" name="picture_upload" accept="image/*"/>
@@ -417,7 +416,7 @@ Agregar Cliente
                             <div class="col-12 d-flex justify-content-center align-items-center">
             
                                 <label for="img-change2"  data-toggle="kt-tooltip" data-placement="top" title="" data-original-title="Clic para cambiar">
-                                <img id="img-change-profile2" class="picture-profile" src=""  />                 
+                                <img id="img-change-profile2" class="" src=""  />                 
                                 </label>
                                                 
                                 <input type='file' id="img-change2" style="display:none" name="picture_upload" accept="image/*"/>

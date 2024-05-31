@@ -63,10 +63,14 @@ var KTDemoPanel = function() {
         }
     };
 }();
-
-$(document).ready(function() {
-    KTDemoPanel.init();
-});
+try {
+    $(document).ready(function() {
+        KTDemoPanel.init();
+    });
+    
+} catch (error) {
+    location.reload();
+}
 "use strict";
 
 var KTOffcanvasPanel = function() {

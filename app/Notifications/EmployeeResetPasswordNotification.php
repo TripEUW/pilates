@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-
+// ! Error notifications class
 class EmployeeResetPasswordNotification extends Notification
 {
   use Queueable;
@@ -45,7 +45,7 @@ class EmployeeResetPasswordNotification extends Notification
                     ->from('studio.sandra.galan@pilates.com', 'Studio Sandra Galán Pilates & Fisioterapia')
                     ->greeting('Hola '.$notifiable->name.' '.$notifiable->last_name.'!')
                     ->line('Recibió este correo  electrónico porque recibimos una solicitud de restablecimiento de contraseña para su cuenta.')
-                    ->action('Restablecer mi contraseña', route('employee.password.reset',$this->token))
+                ->action('Restablecer mi contraseña', route('employee.password.reset',$this->token))
                     ->line('Si no solicitó un restablecimiento de contraseña, no se requiere ninguna acción adicional');
                     
     }

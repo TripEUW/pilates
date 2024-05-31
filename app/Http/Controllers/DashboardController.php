@@ -51,12 +51,11 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function index()
     {
         $roles = Rol::where('id',2)->orderBy('id')->pluck('name', 'id')->toArray();
-
         return view('dashboard', compact('roles'));
     }
 
@@ -206,7 +205,7 @@ class DashboardController extends Controller
         $rules = [
 
             'group_selected'  => [
-                'required',
+                'requi',
                 'required_with:clients_selected',
                 'required_with:employee_selected',
                 new RuleEmptyGroup($request->group_selected['id_group'], $request->date_start . ' ' . $request->timepicker_start, $request->date_start . ' ' . $request->timepicker_end, $cantClients),
@@ -249,7 +248,7 @@ class DashboardController extends Controller
         $messages = [
             'group_selected.required' => 'Necesita seleccionar un grupo.',
             'employee_selected.required' => 'Necesita seleccionar un empleado.',
-            // 'client_selected.required' => 'Necesita seleccionar un cliente.',
+            'client_selected.required' => 'Necesita seleccionar un cliente.',
             'timepicker_end.after' => 'La hora final debe ser mayor que la hora inicial.',
             'group_selected.required_with' => 'Es necesario que elija un grupo.'
         ];

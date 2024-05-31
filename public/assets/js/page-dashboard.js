@@ -1885,26 +1885,30 @@ function reloadTableDay(){
             _token: $('#token_ajax').val()
         },
         success: function (res) {
-         
-            dataCalendarSession=res;
-            dataCalendarSessionByAccess=$.map(res, function (obj) {
-                return $.extend(true, {}, obj);
-            });
-            if(tab=='weekly'){
-                reloadTableWeekly();
-            }else if(tab=='monthly'){
-                reloadTableMonthly();
-            }else if(tab=='day'){
-               reloadTableDay();
-            }else if(tab=='list'){
-               reloadTableList();
+            try {
+                
+                dataCalendarSession=res;
+                dataCalendarSessionByAccess=$.map(res, function (obj) {
+                    return $.extend(true, {}, obj);
+                });
+                if(tab=='weekly'){
+                    reloadTableWeekly();
+                }else if(tab=='monthly'){
+                    reloadTableMonthly();
+                }else if(tab=='day'){
+                   reloadTableDay();
+                }else if(tab=='list'){
+                   reloadTableList();
+                }
+             
+                reloadContextMenu();
+                resetElementsDraggable();
+                $('[data-toggle="kt-tooltip"]').tooltip();
+                hideOverlay();
+               
+            } catch (error) {
+                location.reload();   
             }
-         
-            reloadContextMenu();
-            resetElementsDraggable();
-            $('[data-toggle="kt-tooltip"]').tooltip();
-            hideOverlay();
-           
 
         },
         error: function (xhr, status, error) {

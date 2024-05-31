@@ -1,0 +1,13 @@
+02:30:50 - usuario: John Doe - Login
+03:55:24 - usuario: Admin User - Login
+03:58:42 - usuario: John Doe - Alta documento id:9
+05:24:43 - usuario: Admin User - Login
+08:21:14 - usuario: Junai Alpha - Login
+08:25:22 - usuario: Admin User - Actualización empleado id: 34
+08:25:45 - usuario: Junai Alpha - Login
+08:48:40 - usuario: Admin User - Descarga ticket id: 2
+09:23:19 - usuario: Admin User - Restauración copia de seguridad desde un archivo
+11:32:25 - usuario: Admin User - Login
+11:54:44 - usuario: Admin User - Actualización cliente id: 802
+19:07:02 - usuario: Admin User - Login
+20:30:03 - usuario: Admin User - Login

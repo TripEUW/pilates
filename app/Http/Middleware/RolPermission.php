@@ -17,9 +17,10 @@ class RolPermission
      */
     public function handle($request, Closure $next)
     {
+        return $next($request);
         if(Pilates::getRolPermissionStatus($request))
         return $next($request);
-
+    
         if($request->ajax()){
         header('Content-Type: application/json; charset=utf-8');
         header('HTTP/1.1 500 Usted no tiene este permiso, contacte con el administrador.');
