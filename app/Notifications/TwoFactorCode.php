@@ -31,6 +31,7 @@ class TwoFactorCode extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            //->from(config('mail.MAIL_FROM_ADDRESS'))
             ->line('Tu código de verificación en dos pasos es ' . $notifiable->two_factor_code)
             ->action('Verificar Aquí', route('verify.index'))
             ->line('El código expirará en 10 minutos')
